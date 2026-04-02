@@ -1,621 +1,1233 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Python for LeetCode — Complete Guide</title>
-<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,300;0,400;0,500;0,700;1,400&family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
-<style>
-:root {
-  --bg: #0a0e1a;
-  --surface: #111827;
-  --surface2: #1a2235;
-  --border: #1e2d45;
-  --accent: #00d4ff;
-  --accent2: #7c3aed;
-  --accent3: #10b981;
-  --accent4: #f59e0b;
-  --accent5: #ef4444;
-  --text: #e2e8f0;
-  --text-dim: #64748b;
-  --text-mid: #94a3b8;
-  --code-bg: #0d1117;
-  --highlight: rgba(0,212,255,0.08);
-}
-
-* { margin: 0; padding: 0; box-sizing: border-box; }
-
-html { scroll-behavior: smooth; }
-
-body {
-  background: var(--bg);
-  color: var(--text);
-  font-family: 'DM Sans', sans-serif;
-  font-size: 15px;
-  line-height: 1.7;
-  overflow-x: hidden;
-}
-
-/* ── SIDEBAR ── */
-#sidebar {
-  position: fixed;
-  left: 0; top: 0;
-  width: 260px; height: 100vh;
-  background: var(--surface);
-  border-right: 1px solid var(--border);
-  overflow-y: auto;
-  z-index: 100;
-  padding: 0 0 40px;
-}
-
-#sidebar::-webkit-scrollbar { width: 4px; }
-#sidebar::-webkit-scrollbar-track { background: transparent; }
-#sidebar::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
-
-.sidebar-header {
-  padding: 24px 20px 16px;
-  border-bottom: 1px solid var(--border);
-  position: sticky; top: 0;
-  background: var(--surface);
-  z-index: 1;
-}
-
-.sidebar-title {
-  font-family: 'Syne', sans-serif;
-  font-weight: 800;
-  font-size: 13px;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--accent);
-}
-
-.sidebar-sub {
-  font-size: 11px;
-  color: var(--text-dim);
-  margin-top: 3px;
-}
-
-.nav-section {
-  padding: 16px 20px 4px;
-}
-
-.nav-section-label {
-  font-size: 10px;
-  font-weight: 600;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--text-dim);
-  margin-bottom: 6px;
-}
-
-.nav-item {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 6px 10px;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 13px;
-  color: var(--text-mid);
-  text-decoration: none;
-  transition: all 0.15s;
-  margin-bottom: 1px;
-}
-
-.nav-item:hover { background: var(--highlight); color: var(--text); }
-.nav-item.active { background: rgba(0,212,255,0.12); color: var(--accent); }
-
-.nav-dot {
-  width: 6px; height: 6px;
-  border-radius: 50%;
-  flex-shrink: 0;
-  background: var(--border);
-  transition: background 0.15s;
-}
-.nav-item.active .nav-dot { background: var(--accent); }
-
-.difficulty-badge {
-  margin-left: auto;
-  font-size: 10px;
-  font-weight: 600;
-  padding: 1px 6px;
-  border-radius: 3px;
-  font-family: 'JetBrains Mono', monospace;
-}
-.easy { background: rgba(16,185,129,0.15); color: var(--accent3); }
-.med { background: rgba(245,158,11,0.15); color: var(--accent4); }
-.hard { background: rgba(239,68,68,0.15); color: var(--accent5); }
-
-/* ── MAIN ── */
-#main {
-  margin-left: 260px;
-  min-height: 100vh;
-}
-
-/* ── HERO ── */
-.hero {
-  background: linear-gradient(135deg, #0a0e1a 0%, #0f1929 50%, #0a0e1a 100%);
-  border-bottom: 1px solid var(--border);
-  padding: 80px 64px 64px;
-  position: relative;
-  overflow: hidden;
-}
-
-.hero::before {
-  content: '';
-  position: absolute;
-  top: -100px; right: -100px;
-  width: 500px; height: 500px;
-  background: radial-gradient(circle, rgba(0,212,255,0.06) 0%, transparent 70%);
-  pointer-events: none;
-}
-
-.hero::after {
-  content: '';
-  position: absolute;
-  bottom: -80px; left: 200px;
-  width: 400px; height: 400px;
-  background: radial-gradient(circle, rgba(124,58,237,0.05) 0%, transparent 70%);
-  pointer-events: none;
-}
-
-.hero-eyebrow {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 12px;
-  color: var(--accent);
-  letter-spacing: 0.1em;
-  margin-bottom: 16px;
-  opacity: 0.8;
-}
-
-.hero h1 {
-  font-family: 'Syne', sans-serif;
-  font-weight: 800;
-  font-size: clamp(36px, 4vw, 52px);
-  line-height: 1.1;
-  color: var(--text);
-  margin-bottom: 20px;
-}
-
-.hero h1 span {
-  background: linear-gradient(90deg, var(--accent), var(--accent2));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-.hero-desc {
-  font-size: 16px;
-  color: var(--text-mid);
-  max-width: 560px;
-  margin-bottom: 32px;
-  font-weight: 300;
-}
-
-.hero-stats {
-  display: flex;
-  gap: 40px;
-}
-
-.stat {
-  display: flex;
-  flex-direction: column;
-}
-
-.stat-num {
-  font-family: 'Syne', sans-serif;
-  font-weight: 800;
-  font-size: 28px;
-  color: var(--accent);
-}
-
-.stat-label {
-  font-size: 12px;
-  color: var(--text-dim);
-}
-
-/* ── CONTENT ── */
-.content {
-  padding: 0 64px 100px;
-}
-
-/* ── SECTION ── */
-.section {
-  padding: 64px 0 0;
-  border-bottom: 1px solid var(--border);
-  margin-bottom: 0;
-}
-
-.section:last-child { border-bottom: none; }
-
-.section-header {
-  display: flex;
-  align-items: flex-start;
-  gap: 16px;
-  margin-bottom: 32px;
-}
-
-.section-num {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
-  color: var(--accent);
-  background: rgba(0,212,255,0.08);
-  border: 1px solid rgba(0,212,255,0.2);
-  padding: 4px 8px;
-  border-radius: 4px;
-  margin-top: 4px;
-  flex-shrink: 0;
-}
-
-.section h2 {
-  font-family: 'Syne', sans-serif;
-  font-weight: 700;
-  font-size: 26px;
-  color: var(--text);
-  line-height: 1.2;
-}
-
-.section-desc {
-  color: var(--text-mid);
-  font-size: 14px;
-  margin-top: 4px;
-  font-style: italic;
-}
-
-/* ── SUBSECTIONS ── */
-.subsection {
-  margin-bottom: 48px;
-}
-
-.subsection h3 {
-  font-family: 'Syne', sans-serif;
-  font-weight: 600;
-  font-size: 17px;
-  color: var(--text);
-  margin-bottom: 12px;
-  padding-bottom: 8px;
-  border-bottom: 1px solid var(--border);
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.tag {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 10px;
-  padding: 2px 7px;
-  border-radius: 3px;
-  font-weight: 500;
-}
-
-.tag-core { background: rgba(0,212,255,0.1); color: var(--accent); }
-.tag-pattern { background: rgba(124,58,237,0.12); color: #a78bfa; }
-.tag-builtin { background: rgba(16,185,129,0.1); color: var(--accent3); }
-.tag-gotcha { background: rgba(239,68,68,0.1); color: var(--accent5); }
-
-p {
-  color: var(--text-mid);
-  margin-bottom: 14px;
-  font-size: 14.5px;
-}
-
-strong { color: var(--text); font-weight: 500; }
-
-/* ── CODE BLOCKS ── */
-.code-block {
-  background: var(--code-bg);
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  margin: 16px 0;
-  overflow: hidden;
-}
-
-.code-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 10px 16px;
-  background: rgba(255,255,255,0.02);
-  border-bottom: 1px solid var(--border);
-}
-
-.code-lang {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
-  color: var(--text-dim);
-  letter-spacing: 0.05em;
-}
-
-.code-label {
-  font-size: 11px;
-  color: var(--text-dim);
-  font-style: italic;
-}
-
-.code-dots { display: flex; gap: 5px; }
-.code-dot { width: 10px; height: 10px; border-radius: 50%; }
-.d1 { background: #ef4444; } .d2 { background: #f59e0b; } .d3 { background: #10b981; }
-
-pre {
-  padding: 20px 24px;
-  overflow-x: auto;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 13px;
-  line-height: 1.7;
-  tab-size: 4;
-}
-
-pre::-webkit-scrollbar { height: 4px; }
-pre::-webkit-scrollbar-track { background: transparent; }
-pre::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
-
-/* Syntax colours */
-.kw { color: #ff7b72; }   /* keywords: def, for, if, return, class, import */
-.fn { color: #d2a8ff; }   /* function names */
-.st { color: #a5d6ff; }   /* strings */
-.nm { color: #79c0ff; }   /* numbers */
-.cm { color: #8b949e; font-style: italic; } /* comments */
-.bi { color: #ffa657; }   /* builtins: len, range, print */
-.op { color: #ff7b72; }   /* operators */
-.var { color: #e2e8f0; }  /* variables */
-.cls { color: #f0883e; }  /* class names */
-.dec { color: #79c0ff; }  /* decorator */
-
-/* ── CALLOUT BOXES ── */
-.callout {
-  border-radius: 8px;
-  padding: 16px 20px;
-  margin: 16px 0;
-  display: flex;
-  gap: 14px;
-  align-items: flex-start;
-}
-
-.callout-icon { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
-.callout-body { flex: 1; }
-.callout-title { font-weight: 600; font-size: 13px; margin-bottom: 4px; }
-.callout-text { font-size: 13px; color: var(--text-mid); margin: 0; }
-
-.callout-tip { background: rgba(16,185,129,0.07); border: 1px solid rgba(16,185,129,0.2); }
-.callout-tip .callout-title { color: var(--accent3); }
-
-.callout-warn { background: rgba(245,158,11,0.07); border: 1px solid rgba(245,158,11,0.2); }
-.callout-warn .callout-title { color: var(--accent4); }
-
-.callout-info { background: rgba(0,212,255,0.05); border: 1px solid rgba(0,212,255,0.15); }
-.callout-info .callout-title { color: var(--accent); }
-
-.callout-scala { background: rgba(124,58,237,0.07); border: 1px solid rgba(124,58,237,0.2); }
-.callout-scala .callout-title { color: #a78bfa; }
-
-/* ── COMPARISON TABLE ── */
-.cmp-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin: 16px 0;
-  font-size: 13px;
-}
-
-.cmp-table th {
-  background: var(--surface2);
-  color: var(--text-mid);
-  font-weight: 600;
-  font-size: 11px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  padding: 10px 16px;
-  border: 1px solid var(--border);
-  text-align: left;
-}
-
-.cmp-table td {
-  padding: 10px 16px;
-  border: 1px solid var(--border);
-  color: var(--text-mid);
-  vertical-align: top;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 12.5px;
-}
-
-.cmp-table tr:hover td { background: rgba(255,255,255,0.015); }
-.cmp-table td:first-child { color: var(--accent); font-weight: 500; }
-
-/* ── PATTERN CARD ── */
-.pattern-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 16px;
-  margin: 16px 0;
-}
-
-.pattern-card {
-  background: var(--surface2);
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  padding: 20px;
-  transition: border-color 0.2s;
-}
-
-.pattern-card:hover { border-color: var(--accent); }
-
-.pattern-title {
-  font-family: 'Syne', sans-serif;
-  font-weight: 600;
-  font-size: 14px;
-  color: var(--text);
-  margin-bottom: 6px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.pattern-when {
-  font-size: 12px;
-  color: var(--text-dim);
-  margin-bottom: 12px;
-  font-style: italic;
-}
-
-/* ── COMPLEXITY BOX ── */
-.complexity {
-  display: inline-flex;
-  gap: 20px;
-  background: var(--surface2);
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  padding: 10px 20px;
-  margin: 8px 0 16px;
-}
-
-.complexity-item { display: flex; flex-direction: column; align-items: center; gap: 2px; }
-.complexity-label { font-size: 10px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.08em; }
-.complexity-val { font-family: 'JetBrains Mono', monospace; font-size: 14px; color: var(--accent3); font-weight: 500; }
-
-/* ── PROGRESS BAR ── */
-.topic-progress {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  margin: 20px 0;
-}
-
-.progress-row {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.progress-label {
-  width: 160px;
-  font-size: 12px;
-  color: var(--text-mid);
-  flex-shrink: 0;
-}
-
-.progress-bar-wrap {
-  flex: 1;
-  height: 4px;
-  background: var(--border);
-  border-radius: 2px;
-  overflow: hidden;
-}
-
-.progress-bar-fill {
-  height: 100%;
-  border-radius: 2px;
-  background: linear-gradient(90deg, var(--accent), var(--accent2));
-}
-
-.progress-pct {
-  width: 36px;
-  font-size: 11px;
-  color: var(--text-dim);
-  font-family: 'JetBrains Mono', monospace;
-  text-align: right;
-}
-
-/* ── INLINE CODE ── */
-code {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 12.5px;
-  background: rgba(255,255,255,0.06);
-  border: 1px solid var(--border);
-  padding: 1px 6px;
-  border-radius: 3px;
-  color: var(--accent);
-}
-
-/* ── SCROLLSPY ── */
-.section[data-active="true"] {}
-
-/* ── RESPONSIVE ── */
-@media (max-width: 900px) {
-  #sidebar { display: none; }
-  #main { margin-left: 0; }
-  .hero { padding: 40px 24px; }
-  .content { padding: 0 24px 60px; }
-  .pattern-grid { grid-template-columns: 1fr; }
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Python for LeetCode — Complete Guide</title>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,300;0,400;0,500;0,700;1,400&family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0a0e1a;
+            --surface: #111827;
+            --surface2: #1a2235;
+            --border: #1e2d45;
+            --accent: #00d4ff;
+            --accent2: #7c3aed;
+            --accent3: #10b981;
+            --accent4: #f59e0b;
+            --accent5: #ef4444;
+            --text: #e2e8f0;
+            --text-dim: #64748b;
+            --text-mid: #94a3b8;
+            --code-bg: #0d1117;
+            --highlight: rgba(0,212,255,0.08);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'DM Sans', sans-serif;
+            font-size: 15px;
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        /* ── SIDEBAR ── */
+        #sidebar {
+            position: fixed;
+            left: 0; top: 0;
+            width: 260px; height: 100vh;
+            background: var(--surface);
+            border-right: 1px solid var(--border);
+            overflow-y: auto;
+            z-index: 100;
+            padding: 0 0 40px;
+        }
+
+        #sidebar::-webkit-scrollbar { width: 4px; }
+        #sidebar::-webkit-scrollbar-track { background: transparent; }
+        #sidebar::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+        .sidebar-header {
+            padding: 24px 20px 16px;
+            border-bottom: 1px solid var(--border);
+            position: sticky; top: 0;
+            background: var(--surface);
+            z-index: 1;
+        }
+
+        .sidebar-title {
+            font-family: 'Syne', sans-serif;
+            font-weight: 800;
+            font-size: 13px;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--accent);
+        }
+
+        .sidebar-sub {
+            font-size: 11px;
+            color: var(--text-dim);
+            margin-top: 3px;
+        }
+
+        .nav-section {
+            padding: 16px 20px 4px;
+        }
+
+        .nav-section-label {
+            font-size: 10px;
+            font-weight: 600;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--text-dim);
+            margin-bottom: 6px;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 10px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 13px;
+            color: var(--text-mid);
+            text-decoration: none;
+            transition: all 0.15s;
+            margin-bottom: 1px;
+        }
+
+        .nav-item:hover { background: var(--highlight); color: var(--text); }
+        .nav-item.active { background: rgba(0,212,255,0.12); color: var(--accent); }
+
+        .nav-dot {
+            width: 6px; height: 6px;
+            border-radius: 50%;
+            flex-shrink: 0;
+            background: var(--border);
+            transition: background 0.15s;
+        }
+        .nav-item.active .nav-dot { background: var(--accent); }
+
+        .difficulty-badge {
+            margin-left: auto;
+            font-size: 10px;
+            font-weight: 600;
+            padding: 1px 6px;
+            border-radius: 3px;
+            font-family: 'JetBrains Mono', monospace;
+        }
+        .easy { background: rgba(16,185,129,0.15); color: var(--accent3); }
+        .med { background: rgba(245,158,11,0.15); color: var(--accent4); }
+        .hard { background: rgba(239,68,68,0.15); color: var(--accent5); }
+
+        /* ── MAIN ── */
+        #main {
+            margin-left: 260px;
+            min-height: 100vh;
+        }
+
+        /* ── HERO ── */
+        .hero {
+            background: linear-gradient(135deg, #0a0e1a 0%, #0f1929 50%, #0a0e1a 100%);
+            border-bottom: 1px solid var(--border);
+            padding: 80px 64px 64px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -100px; right: -100px;
+            width: 500px; height: 500px;
+            background: radial-gradient(circle, rgba(0,212,255,0.06) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: -80px; left: 200px;
+            width: 400px; height: 400px;
+            background: radial-gradient(circle, rgba(124,58,237,0.05) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .hero-eyebrow {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            color: var(--accent);
+            letter-spacing: 0.1em;
+            margin-bottom: 16px;
+            opacity: 0.8;
+        }
+
+        .hero h1 {
+            font-family: 'Syne', sans-serif;
+            font-weight: 800;
+            font-size: clamp(36px, 4vw, 52px);
+            line-height: 1.1;
+            color: var(--text);
+            margin-bottom: 20px;
+        }
+
+        .hero h1 span {
+            background: linear-gradient(90deg, var(--accent), var(--accent2));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-desc {
+            font-size: 16px;
+            color: var(--text-mid);
+            max-width: 560px;
+            margin-bottom: 32px;
+            font-weight: 300;
+        }
+
+        .hero-stats {
+            display: flex;
+            gap: 40px;
+        }
+
+        .stat {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .stat-num {
+            font-family: 'Syne', sans-serif;
+            font-weight: 800;
+            font-size: 28px;
+            color: var(--accent);
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: var(--text-dim);
+        }
+
+        /* ── CONTENT ── */
+        .content {
+            padding: 0 64px 100px;
+        }
+
+        /* ── SECTION ── */
+        .section {
+            padding: 64px 0 0;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 0;
+        }
+
+        .section:last-child { border-bottom: none; }
+
+        .section-header {
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+
+        .section-num {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            color: var(--accent);
+            background: rgba(0,212,255,0.08);
+            border: 1px solid rgba(0,212,255,0.2);
+            padding: 4px 8px;
+            border-radius: 4px;
+            margin-top: 4px;
+            flex-shrink: 0;
+        }
+
+        .section h2 {
+            font-family: 'Syne', sans-serif;
+            font-weight: 700;
+            font-size: 26px;
+            color: var(--text);
+            line-height: 1.2;
+        }
+
+        .section-desc {
+            color: var(--text-mid);
+            font-size: 14px;
+            margin-top: 4px;
+            font-style: italic;
+        }
+
+        /* ── SUBSECTIONS ── */
+        .subsection {
+            margin-bottom: 48px;
+        }
+
+        .subsection h3 {
+            font-family: 'Syne', sans-serif;
+            font-weight: 600;
+            font-size: 17px;
+            color: var(--text);
+            margin-bottom: 12px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .tag {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            padding: 2px 7px;
+            border-radius: 3px;
+            font-weight: 500;
+        }
+
+        .tag-core { background: rgba(0,212,255,0.1); color: var(--accent); }
+        .tag-pattern { background: rgba(124,58,237,0.12); color: #a78bfa; }
+        .tag-builtin { background: rgba(16,185,129,0.1); color: var(--accent3); }
+        .tag-gotcha { background: rgba(239,68,68,0.1); color: var(--accent5); }
+
+        p {
+            color: var(--text-mid);
+            margin-bottom: 14px;
+            font-size: 14.5px;
+        }
+
+        strong { color: var(--text); font-weight: 500; }
+
+        /* ── CODE BLOCKS ── */
+        .code-block {
+            background: var(--code-bg);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            margin: 16px 0;
+            overflow: hidden;
+        }
+
+        .code-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 16px;
+            background: rgba(255,255,255,0.02);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .code-lang {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            color: var(--text-dim);
+            letter-spacing: 0.05em;
+        }
+
+        .code-label {
+            font-size: 11px;
+            color: var(--text-dim);
+            font-style: italic;
+        }
+
+        .code-dots { display: flex; gap: 5px; }
+        .code-dot { width: 10px; height: 10px; border-radius: 50%; }
+        .d1 { background: #ef4444; } .d2 { background: #f59e0b; } .d3 { background: #10b981; }
+
+        pre {
+            padding: 20px 24px;
+            overflow-x: auto;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13px;
+            line-height: 1.7;
+            tab-size: 4;
+        }
+
+        pre::-webkit-scrollbar { height: 4px; }
+        pre::-webkit-scrollbar-track { background: transparent; }
+        pre::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+        /* Syntax colours */
+        .kw { color: #ff7b72; }   /* keywords: def, for, if, return, class, import */
+        .fn { color: #d2a8ff; }   /* function names */
+        .st { color: #a5d6ff; }   /* strings */
+        .nm { color: #79c0ff; }   /* numbers */
+        .cm { color: #8b949e; font-style: italic; } /* comments */
+        .bi { color: #ffa657; }   /* builtins: len, range, print */
+        .op { color: #ff7b72; }   /* operators */
+        .var { color: #e2e8f0; }  /* variables */
+        .cls { color: #f0883e; }  /* class names */
+        .dec { color: #79c0ff; }  /* decorator */
+
+        /* ── CALLOUT BOXES ── */
+        .callout {
+            border-radius: 8px;
+            padding: 16px 20px;
+            margin: 16px 0;
+            display: flex;
+            gap: 14px;
+            align-items: flex-start;
+        }
+
+        .callout-icon { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+        .callout-body { flex: 1; }
+        .callout-title { font-weight: 600; font-size: 13px; margin-bottom: 4px; }
+        .callout-text { font-size: 13px; color: var(--text-mid); margin: 0; }
+
+        .callout-tip { background: rgba(16,185,129,0.07); border: 1px solid rgba(16,185,129,0.2); }
+        .callout-tip .callout-title { color: var(--accent3); }
+
+        .callout-warn { background: rgba(245,158,11,0.07); border: 1px solid rgba(245,158,11,0.2); }
+        .callout-warn .callout-title { color: var(--accent4); }
+
+        .callout-info { background: rgba(0,212,255,0.05); border: 1px solid rgba(0,212,255,0.15); }
+        .callout-info .callout-title { color: var(--accent); }
+
+        .callout-scala { background: rgba(124,58,237,0.07); border: 1px solid rgba(124,58,237,0.2); }
+        .callout-scala .callout-title { color: #a78bfa; }
+
+        /* ── COMPARISON TABLE ── */
+        .cmp-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 16px 0;
+            font-size: 13px;
+        }
+
+        .cmp-table th {
+            background: var(--surface2);
+            color: var(--text-mid);
+            font-weight: 600;
+            font-size: 11px;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            padding: 10px 16px;
+            border: 1px solid var(--border);
+            text-align: left;
+        }
+
+        .cmp-table td {
+            padding: 10px 16px;
+            border: 1px solid var(--border);
+            color: var(--text-mid);
+            vertical-align: top;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12.5px;
+        }
+
+        .cmp-table tr:hover td { background: rgba(255,255,255,0.015); }
+        .cmp-table td:first-child { color: var(--accent); font-weight: 500; }
+
+        /* ── PATTERN CARD ── */
+        .pattern-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin: 16px 0;
+        }
+
+        .pattern-card {
+            background: var(--surface2);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 20px;
+            transition: border-color 0.2s;
+        }
+
+        .pattern-card:hover { border-color: var(--accent); }
+
+        .pattern-title {
+            font-family: 'Syne', sans-serif;
+            font-weight: 600;
+            font-size: 14px;
+            color: var(--text);
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .pattern-when {
+            font-size: 12px;
+            color: var(--text-dim);
+            margin-bottom: 12px;
+            font-style: italic;
+        }
+
+        /* ── COMPLEXITY BOX ── */
+        .complexity {
+            display: inline-flex;
+            gap: 20px;
+            background: var(--surface2);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 10px 20px;
+            margin: 8px 0 16px;
+        }
+
+        .complexity-item { display: flex; flex-direction: column; align-items: center; gap: 2px; }
+        .complexity-label { font-size: 10px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.08em; }
+        .complexity-val { font-family: 'JetBrains Mono', monospace; font-size: 14px; color: var(--accent3); font-weight: 500; }
+
+        /* ── PROGRESS BAR ── */
+        .topic-progress {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin: 20px 0;
+        }
+
+        .progress-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .progress-label {
+            width: 160px;
+            font-size: 12px;
+            color: var(--text-mid);
+            flex-shrink: 0;
+        }
+
+        .progress-bar-wrap {
+            flex: 1;
+            height: 4px;
+            background: var(--border);
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            border-radius: 2px;
+            background: linear-gradient(90deg, var(--accent), var(--accent2));
+        }
+
+        .progress-pct {
+            width: 36px;
+            font-size: 11px;
+            color: var(--text-dim);
+            font-family: 'JetBrains Mono', monospace;
+            text-align: right;
+        }
+
+        /* ── INLINE CODE ── */
+        code {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12.5px;
+            background: rgba(255,255,255,0.06);
+            border: 1px solid var(--border);
+            padding: 1px 6px;
+            border-radius: 3px;
+            color: var(--accent);
+        }
+
+        /* ── SCROLLSPY ── */
+        .section[data-active="true"] {}
+
+        /* ── RESPONSIVE ── */
+        @media (max-width: 900px) {
+            #sidebar { display: none; }
+            #main { margin-left: 0; }
+            .hero { padding: 40px 24px; }
+            .content { padding: 0 24px 60px; }
+            .pattern-grid { grid-template-columns: 1fr; }
+        }
+    </style>
 </head>
 <body>
 
 <!-- ══ SIDEBAR ══════════════════════════════════════════════════════════════ -->
 <nav id="sidebar">
-  <div class="sidebar-header">
-    <div class="sidebar-title">Python → LeetCode</div>
-    <div class="sidebar-sub">Complete reference guide</div>
-  </div>
+    <div class="sidebar-header">
+        <div class="sidebar-title">Python → LeetCode</div>
+        <div class="sidebar-sub">Complete reference guide</div>
+    </div>
 
-  <div class="nav-section">
-    <div class="nav-section-label">Foundations</div>
-    <a href="#s1" class="nav-item"><span class="nav-dot"></span>Language Mechanics</a>
-    <a href="#s2" class="nav-item"><span class="nav-dot"></span>Collections Deep Dive</a>
-    <a href="#s3" class="nav-item"><span class="nav-dot"></span>Built-ins Arsenal</a>
-  </div>
+    <div class="nav-section">
+        <div class="nav-section-label">Start Here</div>
+        <a href="#s101" class="nav-item"><span class="nav-dot"></span>Python 101 — Absolute Basics</a>
+        <a href="#s102" class="nav-item"><span class="nav-dot"></span>Python 102 — Functions & OOP</a>
+    </div>
 
-  <div class="nav-section">
-    <div class="nav-section-label">Core Patterns</div>
-    <a href="#s4" class="nav-item"><span class="nav-dot"></span>Two Pointers <span class="difficulty-badge easy">easy→hard</span></a>
-    <a href="#s5" class="nav-item"><span class="nav-dot"></span>Sliding Window <span class="difficulty-badge med">med</span></a>
-    <a href="#s6" class="nav-item"><span class="nav-dot"></span>Binary Search <span class="difficulty-badge med">med</span></a>
-    <a href="#s7" class="nav-item"><span class="nav-dot"></span>BFS / DFS <span class="difficulty-badge med">med</span></a>
-    <a href="#s8" class="nav-item"><span class="nav-dot"></span>Dynamic Programming <span class="difficulty-badge hard">hard</span></a>
-    <a href="#s9" class="nav-item"><span class="nav-dot"></span>Backtracking <span class="difficulty-badge hard">hard</span></a>
-    <a href="#s10" class="nav-item"><span class="nav-dot"></span>Heap / Priority Queue <span class="difficulty-badge med">med</span></a>
-  </div>
+    <div class="nav-section">
+        <div class="nav-section-label">Foundations</div>
+        <a href="#s1" class="nav-item"><span class="nav-dot"></span>Language Mechanics</a>
+        <a href="#s2" class="nav-item"><span class="nav-dot"></span>Collections Deep Dive</a>
+        <a href="#s3" class="nav-item"><span class="nav-dot"></span>Built-ins Arsenal</a>
+    </div>
 
-  <div class="nav-section">
-    <div class="nav-section-label">Data Structures</div>
-    <a href="#s11" class="nav-item"><span class="nav-dot"></span>Linked Lists</a>
-    <a href="#s12" class="nav-item"><span class="nav-dot"></span>Trees & Graphs</a>
-    <a href="#s13" class="nav-item"><span class="nav-dot"></span>Tries</a>
-  </div>
+    <div class="nav-section">
+        <div class="nav-section-label">Core Patterns</div>
+        <a href="#s4" class="nav-item"><span class="nav-dot"></span>Two Pointers <span class="difficulty-badge easy">easy→hard</span></a>
+        <a href="#s5" class="nav-item"><span class="nav-dot"></span>Sliding Window <span class="difficulty-badge med">med</span></a>
+        <a href="#s6" class="nav-item"><span class="nav-dot"></span>Binary Search <span class="difficulty-badge med">med</span></a>
+        <a href="#s7" class="nav-item"><span class="nav-dot"></span>BFS / DFS <span class="difficulty-badge med">med</span></a>
+        <a href="#s8" class="nav-item"><span class="nav-dot"></span>Dynamic Programming <span class="difficulty-badge hard">hard</span></a>
+        <a href="#s9" class="nav-item"><span class="nav-dot"></span>Backtracking <span class="difficulty-badge hard">hard</span></a>
+        <a href="#s10" class="nav-item"><span class="nav-dot"></span>Heap / Priority Queue <span class="difficulty-badge med">med</span></a>
+    </div>
 
-  <div class="nav-section">
-    <div class="nav-section-label">Advanced</div>
-    <a href="#s14" class="nav-item"><span class="nav-dot"></span>Bit Manipulation</a>
-    <a href="#s15" class="nav-item"><span class="nav-dot"></span>Intervals & Sorting</a>
-    <a href="#s16" class="nav-item"><span class="nav-dot"></span>Complexity Cheatsheet</a>
-  </div>
+    <div class="nav-section">
+        <div class="nav-section-label">Data Structures</div>
+        <a href="#s11" class="nav-item"><span class="nav-dot"></span>Linked Lists</a>
+        <a href="#s12" class="nav-item"><span class="nav-dot"></span>Trees & Graphs</a>
+        <a href="#s13" class="nav-item"><span class="nav-dot"></span>Tries</a>
+    </div>
+
+    <div class="nav-section">
+        <div class="nav-section-label">Advanced</div>
+        <a href="#s14" class="nav-item"><span class="nav-dot"></span>Bit Manipulation</a>
+        <a href="#s15" class="nav-item"><span class="nav-dot"></span>Intervals & Sorting</a>
+        <a href="#s16" class="nav-item"><span class="nav-dot"></span>Complexity Cheatsheet</a>
+    </div>
 </nav>
 
 <!-- ══ MAIN ══════════════════════════════════════════════════════════════════ -->
 <main id="main">
 
-<!-- HERO -->
-<div class="hero">
-  <div class="hero-eyebrow">// tarek's guide</div>
-  <h1>Python for <span>LeetCode</span><br>Mastery</h1>
-  <p class="hero-desc">Every concept, pattern and built-in you need — explained from a Scala engineer's perspective. Skip what you know, study what you don't.</p>
-  <div class="hero-stats">
-    <div class="stat"><span class="stat-num">16</span><span class="stat-label">Topics</span></div>
-    <div class="stat"><span class="stat-num">40+</span><span class="stat-label">Code examples</span></div>
-    <div class="stat"><span class="stat-num">12</span><span class="stat-label">Patterns</span></div>
-  </div>
-</div>
-
-<!-- CONTENT -->
-<div class="content">
-
-<!-- ══════════════════════════════════════════════════════════════
-     S1 — LANGUAGE MECHANICS
-══════════════════════════════════════════════════════════════ -->
-<div class="section" id="s1">
-  <div class="section-header">
-    <span class="section-num">01</span>
-    <div>
-      <h2>Language Mechanics</h2>
-      <div class="section-desc">The Python syntax you'll write 100 times in interviews</div>
+    <!-- HERO -->
+    <div class="hero">
+        <div class="hero-eyebrow">// tarek's guide</div>
+        <h1>Python for <span>LeetCode</span><br>Mastery</h1>
+        <p class="hero-desc">Every concept, pattern and built-in you need — explained from a Scala engineer's perspective. Skip what you know, study what you don't.</p>
+        <div class="hero-stats">
+            <div class="stat"><span class="stat-num">18</span><span class="stat-label">Topics</span></div>
+            <div class="stat"><span class="stat-num">55+</span><span class="stat-label">Code examples</span></div>
+            <div class="stat"><span class="stat-num">12</span><span class="stat-label">Patterns</span></div>
+        </div>
     </div>
-  </div>
 
-  <div class="subsection">
-    <h3>Variables, Types, Unpacking <span class="tag tag-core">CORE</span></h3>
-    <p>Python is dynamically typed — no type declarations. Variables are just names bound to objects. This is unlike Scala's <code>val</code>/<code>var</code> with explicit types, but you should mentally track types anyway.</p>
-    <div class="code-block">
-      <div class="code-header"><div class="code-dots"><div class="code-dot d1"></div><div class="code-dot d2"></div><div class="code-dot d3"></div></div><span class="code-lang">python</span><span class="code-label">variables & unpacking</span></div>
-<pre><span class="cm"># Basic assignment — no val/var, no type annotation needed</span>
+    <!-- CONTENT -->
+    <div class="content">
+
+        <!-- ══════════════════════════════════════════════════════════════
+             S101 — PYTHON 101: ABSOLUTE BASICS
+        ══════════════════════════════════════════════════════════════ -->
+        <div class="section" id="s101">
+            <div class="section-header">
+                <span class="section-num">101</span>
+                <div>
+                    <h2>Python 101 — Absolute Basics</h2>
+                    <div class="section-desc">Zero to running code. Everything you need before touching LeetCode.</div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>How Python runs <span class="tag tag-core">CORE</span></h3>
+                <p>Python is an interpreted language — there's no compile step. You write a <code>.py</code> file and run it directly. In LeetCode you never deal with this; you just fill in a function body. But understanding the basics helps you reason about what's happening.</p>
+                <div class="code-block">
+                    <div class="code-header"><div class="code-dots"><div class="code-dot d1"></div><div class="code-dot d2"></div><div class="code-dot d3"></div></div><span class="code-lang">python</span><span class="code-label">running python</span></div>
+                    <pre><span class="cm"># Run a file:  python3 my_file.py</span>
+<span class="cm"># Interactive: python3   (opens a REPL)</span>
+
+<span class="cm"># Print to console</span>
+<span class="bi">print</span>(<span class="st">"hello world"</span>)
+<span class="bi">print</span>(<span class="nm">42</span>)
+<span class="bi">print</span>(<span class="st">"value:"</span>, <span class="nm">42</span>)         <span class="cm"># prints: value: 42</span>
+<span class="bi">print</span>(<span class="kw">f</span><span class="st">"x = {x}, y = {y}"</span>)  <span class="cm"># f-string — most modern way</span>
+
+<span class="cm"># Comments — only single line (no /* */ like Java)</span>
+<span class="cm"># This is a comment</span>
+
+<span class="cm"># Indentation IS the syntax — no braces, no semicolons</span>
+<span class="cm"># Wrong indentation = SyntaxError or wrong behaviour</span>
+<span class="kw">if</span> <span class="kw">True</span>:
+    <span class="bi">print</span>(<span class="st">"indented with 4 spaces"</span>)   <span class="cm"># inside if block</span>
+<span class="bi">print</span>(<span class="st">"not indented"</span>)                <span class="cm"># outside if block</span></pre>
+                </div>
+                <div class="callout callout-scala">
+                    <div class="callout-icon">⚡</div>
+                    <div class="callout-body">
+                        <div class="callout-title">Coming from Scala/Java</div>
+                        <p class="callout-text">No braces <code>{}</code> for blocks. No semicolons <code>;</code> at line ends. No <code>public static void main</code>. Indentation (4 spaces) defines structure. This feels wrong at first — trust it.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Types — the core six <span class="tag tag-core">CORE</span></h3>
+                <p>Python has dynamic typing — variables have no declared type. The object itself carries the type. You'll use these six constantly.</p>
+                <div class="code-block">
+                    <div class="code-header"><div class="code-dots"><div class="code-dot d1"></div><div class="code-dot d2"></div><div class="code-dot d3"></div></div><span class="code-lang">python</span><span class="code-label">the six core types</span></div>
+                    <pre><span class="cm"># int — unbounded, no overflow</span>
+<span class="var">n</span> = <span class="nm">42</span>
+<span class="var">n</span> = <span class="op">-</span><span class="nm">7</span>
+
+<span class="cm"># float</span>
+<span class="var">f</span> = <span class="nm">3.14</span>
+<span class="var">inf</span> = <span class="bi">float</span>(<span class="st">'inf'</span>)    <span class="cm"># positive infinity — very useful in LeetCode</span>
+
+<span class="cm"># bool — capital T/F, is a subtype of int (True==1, False==0)</span>
+<span class="var">flag</span> = <span class="kw">True</span>
+<span class="var">flag</span> = <span class="kw">False</span>
+<span class="kw">True</span> + <span class="kw">True</span>   <span class="cm"># = 2 (valid Python!)</span>
+
+<span class="cm"># str — immutable sequence of characters</span>
+<span class="var">s</span> = <span class="st">"hello"</span>
+<span class="var">s</span> = <span class="st">'hello'</span>    <span class="cm"># single or double quotes — same thing</span>
+<span class="var">s</span>[<span class="nm">0</span>]           <span class="cm"># 'h' — index like an array</span>
+<span class="bi">len</span>(<span class="var">s</span>)         <span class="cm"># 5</span>
+
+<span class="cm"># list — mutable, ordered, allows duplicates</span>
+<span class="var">arr</span> = [<span class="nm">1</span>, <span class="nm">2</span>, <span class="nm">3</span>]
+<span class="var">mixed</span> = [<span class="nm">1</span>, <span class="st">"hi"</span>, <span class="kw">True</span>]   <span class="cm"># Python lists can mix types</span>
+
+<span class="cm"># None — the null value (like Scala's None/null)</span>
+<span class="var">x</span> = <span class="kw">None</span>
+<span class="var">x</span> <span class="kw">is</span> <span class="kw">None</span>      <span class="cm"># correct way to check for None</span>
+<span class="var">x</span> == <span class="kw">None</span>      <span class="cm"># works but discouraged</span>
+
+<span class="cm"># Type checking and conversion</span>
+<span class="bi">type</span>(<span class="nm">42</span>)       <span class="cm"># &lt;class 'int'&gt;</span>
+<span class="bi">isinstance</span>(<span class="nm">42</span>, <span class="bi">int</span>)   <span class="cm"># True</span>
+<span class="bi">int</span>(<span class="st">"42"</span>)      <span class="cm"># 42   — string to int</span>
+<span class="bi">str</span>(<span class="nm">42</span>)        <span class="cm"># "42" — int to string</span>
+<span class="bi">float</span>(<span class="nm">3</span>)       <span class="cm"># 3.0</span>
+<span class="bi">list</span>(<span class="st">"abc"</span>)    <span class="cm"># ['a','b','c'] — string to list of chars</span></pre>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Arithmetic & Operators <span class="tag tag-core">CORE</span></h3>
+                <div class="code-block">
+                    <div class="code-header"><div class="code-dots"><div class="code-dot d1"></div><div class="code-dot d2"></div><div class="code-dot d3"></div></div><span class="code-lang">python</span><span class="code-label">operators — including the Python-specific ones</span></div>
+                    <pre><span class="cm"># Standard</span>
+<span class="nm">5</span> <span class="op">+</span> <span class="nm">3</span>    <span class="cm"># 8</span>
+<span class="nm">5</span> <span class="op">-</span> <span class="nm">3</span>    <span class="cm"># 2</span>
+<span class="nm">5</span> <span class="op">*</span> <span class="nm">3</span>    <span class="cm"># 15</span>
+<span class="nm">5</span> <span class="op">/</span> <span class="nm">3</span>    <span class="cm"># 1.666... — always returns float</span>
+<span class="nm">5</span> <span class="op">//</span> <span class="nm">3</span>   <span class="cm"># 1  — integer (floor) division</span>
+<span class="nm">5</span> <span class="op">%</span>  <span class="nm">3</span>   <span class="cm"># 2  — modulo</span>
+<span class="nm">2</span> <span class="op">**</span> <span class="nm">10</span>  <span class="cm"># 1024 — power (no Math.pow needed)</span>
+
+<span class="cm"># Comparison — returns bool</span>
+<span class="nm">5</span> <span class="op">==</span> <span class="nm">5</span>   <span class="cm"># True</span>
+<span class="nm">5</span> <span class="op">!=</span> <span class="nm">3</span>   <span class="cm"># True</span>
+<span class="nm">5</span> <span class="op">></span>  <span class="nm">3</span>   <span class="cm"># True</span>
+<span class="nm">5</span> <span class="op">>=</span> <span class="nm">5</span>   <span class="cm"># True</span>
+
+<span class="cm"># Chained comparisons — unique to Python</span>
+<span class="nm">1</span> <span class="op"><</span> <span class="var">x</span> <span class="op"><</span> <span class="nm">10</span>         <span class="cm"># True if x is between 1 and 10</span>
+<span class="nm">0</span> <span class="op"><=</span> <span class="var">idx</span> <span class="op"><</span> <span class="bi">len</span>(<span class="var">arr</span>)  <span class="cm"># bounds check — use this constantly</span>
+
+<span class="cm"># Logical operators — words, not symbols</span>
+<span class="kw">True</span> <span class="kw">and</span> <span class="kw">False</span>   <span class="cm"># False  (not &&)</span>
+<span class="kw">True</span> <span class="kw">or</span>  <span class="kw">False</span>   <span class="cm"># True   (not ||)</span>
+<span class="kw">not</span> <span class="kw">True</span>         <span class="cm"># False  (not !)</span>
+
+<span class="cm"># Short-circuit — a or b returns first truthy value</span>
+<span class="var">x</span> = <span class="kw">None</span>
+<span class="var">y</span> = <span class="var">x</span> <span class="kw">or</span> <span class="nm">0</span>   <span class="cm"># y = 0 (x is None/falsy, so returns 0)</span>
+
+<span class="cm"># Assignment operators</span>
+<span class="var">x</span> <span class="op">+=</span> <span class="nm">1</span>    <span class="cm"># x = x + 1  (no ++ in Python)</span>
+<span class="var">x</span> <span class="op">-=</span> <span class="nm">1</span>
+<span class="var">x</span> <span class="op">*=</span> <span class="nm">2</span>
+<span class="var">x</span> <span class="op">//=</span> <span class="nm">2</span>   <span class="cm"># floor divide and assign</span></pre>
+                </div>
+                <div class="callout callout-warn">
+                    <div class="callout-icon">⚠️</div>
+                    <div class="callout-body">
+                        <div class="callout-title">No ++ or -- in Python</div>
+                        <p class="callout-text">Python has no increment operator. Always write <code>x += 1</code> and <code>x -= 1</code>. Writing <code>x++</code> is a syntax error.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Strings in depth <span class="tag tag-core">CORE</span></h3>
+                <p>Strings come up in roughly 40% of LeetCode problems. Python has excellent string support — know these methods cold.</p>
+                <div class="code-block">
+                    <div class="code-header"><div class="code-dots"><div class="code-dot d1"></div><div class="code-dot d2"></div><div class="code-dot d3"></div></div><span class="code-lang">python</span><span class="code-label">string methods — the ones you'll actually use</span></div>
+                    <pre><span class="var">s</span> = <span class="st">"  Hello, World!  "</span>
+
+<span class="cm"># Case</span>
+<span class="var">s</span>.<span class="fn">lower</span>()         <span class="cm"># "  hello, world!  "</span>
+<span class="var">s</span>.<span class="fn">upper</span>()         <span class="cm"># "  HELLO, WORLD!  "</span>
+
+<span class="cm"># Whitespace</span>
+<span class="var">s</span>.<span class="fn">strip</span>()          <span class="cm"># "Hello, World!"  — removes both ends</span>
+<span class="var">s</span>.<span class="fn">lstrip</span>()         <span class="cm"># "Hello, World!  " — left only</span>
+
+<span class="cm"># Search</span>
+<span class="var">s</span>.<span class="fn">find</span>(<span class="st">"World"</span>)    <span class="cm"># index of first match, -1 if not found</span>
+<span class="var">s</span>.<span class="fn">count</span>(<span class="st">"l"</span>)       <span class="cm"># 3 — count occurrences</span>
+<span class="st">"lo"</span> <span class="kw">in</span> <span class="var">s</span>          <span class="cm"># True — substring check</span>
+<span class="var">s</span>.<span class="fn">startswith</span>(<span class="st">"He"</span>) <span class="cm"># False (has leading spaces)</span>
+
+<span class="cm"># Split and join — critical for string problems</span>
+<span class="st">"a,b,c"</span>.<span class="fn">split</span>(<span class="st">","</span>)    <span class="cm"># ['a','b','c']</span>
+<span class="st">"hello world"</span>.<span class="fn">split</span>()  <span class="cm"># ['hello','world'] — splits on whitespace</span>
+<span class="st">"-"</span>.<span class="fn">join</span>([<span class="st">"a"</span>,<span class="st">"b"</span>,<span class="st">"c"</span>])  <span class="cm"># "a-b-c"</span>
+<span class="st">""</span>.<span class="fn">join</span>([<span class="st">"a"</span>,<span class="st">"b"</span>,<span class="st">"c"</span>])   <span class="cm"># "abc" — join chars back into string</span>
+
+<span class="cm"># Replace</span>
+<span class="st">"aabbcc"</span>.<span class="fn">replace</span>(<span class="st">"b"</span>, <span class="st">"x"</span>)  <span class="cm"># "aaxxcc"</span>
+
+<span class="cm"># Character checks</span>
+<span class="st">"a"</span>.<span class="fn">isalpha</span>()    <span class="cm"># True — is alphabetic</span>
+<span class="st">"3"</span>.<span class="fn">isdigit</span>()    <span class="cm"># True — is numeric</span>
+<span class="st">"a3"</span>.<span class="fn">isalnum</span>()   <span class="cm"># True — alphanumeric (used in palindrome problems)</span>
+
+<span class="cm"># String is immutable — you cannot modify in place</span>
+<span class="var">s</span> = <span class="st">"hello"</span>
+<span class="var">s</span>[<span class="nm">0</span>] = <span class="st">"H"</span>   <span class="cm"># TypeError! strings are immutable</span>
+<span class="cm"># To modify: convert to list, change, join back</span>
+<span class="var">chars</span> = <span class="bi">list</span>(<span class="var">s</span>)
+<span class="var">chars</span>[<span class="nm">0</span>] = <span class="st">"H"</span>
+<span class="var">s</span> = <span class="st">""</span>.<span class="fn">join</span>(<span class="var">chars</span>)   <span class="cm"># "Hello"</span>
+
+<span class="cm"># ord and chr — for character arithmetic</span>
+<span class="bi">ord</span>(<span class="st">'a'</span>)         <span class="cm"># 97 — ASCII value</span>
+<span class="bi">chr</span>(<span class="nm">97</span>)          <span class="cm"># 'a'</span>
+<span class="bi">ord</span>(<span class="st">'c'</span>) <span class="op">-</span> <span class="bi">ord</span>(<span class="st">'a'</span>)   <span class="cm"># 2 — position in alphabet (used in frequency arrays)</span></pre>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Conditionals & Truthiness <span class="tag tag-core">CORE</span></h3>
+                <div class="code-block">
+                    <div class="code-header"><div class="code-dots"><div class="code-dot d1"></div><div class="code-dot d2"></div><div class="code-dot d3"></div></div><span class="code-lang">python</span><span class="code-label">if/elif/else + truthy/falsy</span></div>
+                    <pre><span class="cm"># Basic if/elif/else</span>
+<span class="kw">if</span> <span class="var">x</span> > <span class="nm">0</span>:
+    <span class="bi">print</span>(<span class="st">"positive"</span>)
+<span class="kw">elif</span> <span class="var">x</span> < <span class="nm">0</span>:
+    <span class="bi">print</span>(<span class="st">"negative"</span>)
+<span class="kw">else</span>:
+    <span class="bi">print</span>(<span class="st">"zero"</span>)
+
+<span class="cm"># Falsy values — these all evaluate as False in an if</span>
+<span class="kw">if not</span> <span class="kw">None</span>:    <span class="bi">print</span>(<span class="st">"None is falsy"</span>)
+<span class="kw">if not</span> <span class="nm">0</span>:      <span class="bi">print</span>(<span class="st">"0 is falsy"</span>)
+<span class="kw">if not</span> <span class="st">""</span>:     <span class="bi">print</span>(<span class="st">"empty string is falsy"</span>)
+<span class="kw">if not</span> []:     <span class="bi">print</span>(<span class="st">"empty list is falsy"</span>)
+<span class="kw">if not</span> {}:     <span class="bi">print</span>(<span class="st">"empty dict is falsy"</span>)
+<span class="cm"># Everything else is truthy</span>
+
+<span class="cm"># This means you can write these LeetCode patterns:</span>
+<span class="kw">if</span> <span class="var">stack</span>:            <span class="cm"># True if stack is non-empty</span>
+<span class="kw">if not</span> <span class="var">visited</span>:      <span class="cm"># True if set is empty</span>
+<span class="kw">if</span> <span class="var">node</span>:             <span class="cm"># True if node is not None</span>
+<span class="kw">if</span> <span class="var">remaining</span>:        <span class="cm"># True if remaining != 0</span>
+
+<span class="cm"># One-line ternary</span>
+<span class="var">result</span> = <span class="st">"yes"</span> <span class="kw">if</span> <span class="var">condition</span> <span class="kw">else</span> <span class="st">"no"</span></pre>
+                </div>
+                <div class="callout callout-tip">
+                    <div class="callout-icon">💡</div>
+                    <div class="callout-body">
+                        <div class="callout-title">Truthiness is a superpower in LeetCode</div>
+                        <p class="callout-text">Writing <code>if stack:</code> instead of <code>if len(stack) > 0:</code> is idiomatic Python and saves lines constantly. Lean into it.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Loops <span class="tag tag-core">CORE</span></h3>
+                <div class="code-block">
+                    <div class="code-header"><div class="code-dots"><div class="code-dot d1"></div><div class="code-dot d2"></div><div class="code-dot d3"></div></div><span class="code-lang">python</span><span class="code-label">for, while, break, continue</span></div>
+                    <pre><span class="cm"># for loop — iterates over any iterable</span>
+<span class="kw">for</span> <span class="var">i</span> <span class="kw">in</span> <span class="bi">range</span>(<span class="nm">5</span>):          <span class="cm"># 0,1,2,3,4</span>
+    <span class="bi">print</span>(<span class="var">i</span>)
+
+<span class="kw">for</span> <span class="var">item</span> <span class="kw">in</span> [<span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"c"</span>]:  <span class="cm"># iterate list directly</span>
+    <span class="bi">print</span>(<span class="var">item</span>)
+
+<span class="kw">for</span> <span class="var">c</span> <span class="kw">in</span> <span class="st">"hello"</span>:            <span class="cm"># iterate characters of string</span>
+    <span class="bi">print</span>(<span class="var">c</span>)
+
+<span class="cm"># range variants</span>
+<span class="bi">range</span>(<span class="nm">5</span>)          <span class="cm"># 0 to 4</span>
+<span class="bi">range</span>(<span class="nm">2</span>, <span class="nm">6</span>)       <span class="cm"># 2 to 5</span>
+<span class="bi">range</span>(<span class="nm">10</span>, <span class="nm">0</span>, <span class="op">-</span><span class="nm">1</span>)  <span class="cm"># 10,9,...,1 (reverse)</span>
+<span class="bi">range</span>(<span class="nm">0</span>, <span class="nm">10</span>, <span class="nm">2</span>)   <span class="cm"># 0,2,4,6,8 (step 2)</span>
+
+<span class="cm"># while loop</span>
+<span class="var">i</span> = <span class="nm">0</span>
+<span class="kw">while</span> <span class="var">i</span> < <span class="nm">5</span>:
+    <span class="bi">print</span>(<span class="var">i</span>)
+    <span class="var">i</span> += <span class="nm">1</span>
+
+<span class="cm"># break — exit loop immediately</span>
+<span class="kw">for</span> <span class="var">i</span> <span class="kw">in</span> <span class="bi">range</span>(<span class="nm">10</span>):
+    <span class="kw">if</span> <span class="var">i</span> == <span class="nm">5</span>: <span class="kw">break</span>   <span class="cm"># stops at 5</span>
+
+<span class="cm"># continue — skip rest of current iteration</span>
+<span class="kw">for</span> <span class="var">i</span> <span class="kw">in</span> <span class="bi">range</span>(<span class="nm">5</span>):
+    <span class="kw">if</span> <span class="var">i</span> == <span class="nm">2</span>: <span class="kw">continue</span>   <span class="cm"># skips printing 2</span>
+    <span class="bi">print</span>(<span class="var">i</span>)
+
+<span class="cm"># _ as throwaway variable (conventional)</span>
+<span class="kw">for</span> <span class="var">_</span> <span class="kw">in</span> <span class="bi">range</span>(<span class="nm">3</span>):   <span class="cm"># when you don't need the index</span>
+    <span class="bi">print</span>(<span class="st">"hi"</span>)</pre>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Lists — create, access, modify <span class="tag tag-core">CORE</span></h3>
+                <div class="code-block">
+                    <div class="code-header"><div class="code-dots"><div class="code-dot d1"></div><div class="code-dot d2"></div><div class="code-dot d3"></div></div><span class="code-lang">python</span><span class="code-label">list fundamentals</span></div>
+                    <pre><span class="cm"># Create</span>
+<span class="var">arr</span> = []                     <span class="cm"># empty list</span>
+<span class="var">arr</span> = [<span class="nm">1</span>, <span class="nm">2</span>, <span class="nm">3</span>]             <span class="cm"># with values</span>
+<span class="var">arr</span> = [<span class="nm">0</span>] <span class="op">*</span> <span class="nm">5</span>              <span class="cm"># [0, 0, 0, 0, 0]</span>
+<span class="var">arr</span> = <span class="bi">list</span>(<span class="bi">range</span>(<span class="nm">5</span>))        <span class="cm"># [0, 1, 2, 3, 4]</span>
+
+<span class="cm"># Access</span>
+<span class="var">arr</span>[<span class="nm">0</span>]    <span class="cm"># first element</span>
+<span class="var">arr</span>[<span class="op">-</span><span class="nm">1</span>]   <span class="cm"># last element  (no arr[arr.length-1]!)</span>
+<span class="var">arr</span>[<span class="op">-</span><span class="nm">2</span>]   <span class="cm"># second to last</span>
+
+<span class="cm"># Modify</span>
+<span class="var">arr</span>[<span class="nm">0</span>] = <span class="nm">99</span>          <span class="cm"># set by index</span>
+<span class="var">arr</span>.<span class="fn">append</span>(<span class="nm">4</span>)        <span class="cm"># add to end</span>
+<span class="var">arr</span>.<span class="fn">extend</span>([<span class="nm">5</span>,<span class="nm">6</span>])    <span class="cm"># add multiple</span>
+<span class="var">arr</span>.<span class="fn">insert</span>(<span class="nm">1</span>, <span class="nm">99</span>)    <span class="cm"># insert 99 at index 1 — O(n)</span>
+<span class="var">arr</span>.<span class="fn">pop</span>()            <span class="cm"># remove and return last — O(1)</span>
+<span class="var">arr</span>.<span class="fn">pop</span>(<span class="nm">0</span>)           <span class="cm"># remove first — O(n), avoid in tight loops</span>
+<span class="var">arr</span>.<span class="fn">remove</span>(<span class="nm">3</span>)        <span class="cm"># remove first occurrence of value 3</span>
+
+<span class="cm"># Info</span>
+<span class="bi">len</span>(<span class="var">arr</span>)             <span class="cm"># length</span>
+<span class="nm">3</span> <span class="kw">in</span> <span class="var">arr</span>             <span class="cm"># membership check O(n)</span>
+<span class="var">arr</span>.<span class="fn">index</span>(<span class="nm">3</span>)         <span class="cm"># index of value 3</span>
+<span class="bi">min</span>(<span class="var">arr</span>), <span class="bi">max</span>(<span class="var">arr</span>)  <span class="cm"># min and max values</span>
+<span class="bi">sum</span>(<span class="var">arr</span>)             <span class="cm"># sum of all elements</span></pre>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Dicts & Sets — basic usage <span class="tag tag-core">CORE</span></h3>
+                <div class="code-block">
+                    <div class="code-header"><div class="code-dots"><div class="code-dot d1"></div><div class="code-dot d2"></div><div class="code-dot d3"></div></div><span class="code-lang">python</span><span class="code-label">dict and set — first contact</span></div>
+                    <pre><span class="cm"># dict — key/value store, all O(1)</span>
+<span class="var">d</span> = {}                        <span class="cm"># empty</span>
+<span class="var">d</span> = {<span class="st">"a"</span>: <span class="nm">1</span>, <span class="st">"b"</span>: <span class="nm">2</span>}         <span class="cm"># with values</span>
+<span class="var">d</span>[<span class="st">"a"</span>]                        <span class="cm"># 1 — get value</span>
+<span class="var">d</span>[<span class="st">"c"</span>] = <span class="nm">3</span>                    <span class="cm"># set value</span>
+<span class="st">"a"</span> <span class="kw">in</span> <span class="var">d</span>                      <span class="cm"># True — key exists?</span>
+<span class="var">d</span>.<span class="fn">get</span>(<span class="st">"z"</span>, <span class="nm">0</span>)                 <span class="cm"># 0 — safe get with default</span>
+<span class="kw">del</span> <span class="var">d</span>[<span class="st">"a"</span>]                    <span class="cm"># delete key</span>
+<span class="bi">len</span>(<span class="var">d</span>)                        <span class="cm"># number of keys</span>
+
+<span class="cm"># set — unordered, unique values, O(1) ops</span>
+<span class="var">s</span> = <span class="bi">set</span>()                     <span class="cm"># empty — NOT {} (that's a dict!)</span>
+<span class="var">s</span> = {<span class="nm">1</span>, <span class="nm">2</span>, <span class="nm">3</span>}                  <span class="cm"># with values</span>
+<span class="var">s</span>.<span class="fn">add</span>(<span class="nm">4</span>)                      <span class="cm"># add element</span>
+<span class="nm">3</span> <span class="kw">in</span> <span class="var">s</span>                         <span class="cm"># True — O(1) lookup</span>
+<span class="var">s</span>.<span class="fn">remove</span>(<span class="nm">3</span>)                   <span class="cm"># remove (KeyError if absent)</span>
+<span class="var">s</span>.<span class="fn">discard</span>(<span class="nm">99</span>)                 <span class="cm"># safe remove</span>
+<span class="bi">set</span>([<span class="nm">1</span>,<span class="nm">2</span>,<span class="nm">2</span>,<span class="nm">3</span>])               <span class="cm"># {1,2,3} — deduplicate a list</span></pre>
+                </div>
+            </div>
+        </div>
+
+        <!-- ══════════════════════════════════════════════════════════════
+             S102 — PYTHON 102: FUNCTIONS, CLASSES & SCOPE
+        ══════════════════════════════════════════════════════════════ -->
+        <div class="section" id="s102">
+            <div class="section-header">
+                <span class="section-num">102</span>
+                <div>
+                    <h2>Python 102 — Functions, Classes & Scope</h2>
+                    <div class="section-desc">How Python structures code. Essential before writing any LeetCode solutions.</div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Defining functions <span class="tag tag-core">CORE</span></h3>
+                <p>Every LeetCode solution is a function (or a method on a class). You need to be fluent writing and reading them.</p>
+                <div class="code-block">
+                    <div class="code-header"><div class="code-dots"><div class="code-dot d1"></div><div class="code-dot d2"></div><div class="code-dot d3"></div></div><span class="code-lang">python</span><span class="code-label">functions — definition, args, return</span></div>
+                    <pre><span class="cm"># Basic function — def keyword, colon, indented body</span>
+<span class="kw">def</span> <span class="fn">add</span>(<span class="var">a</span>, <span class="var">b</span>):
+    <span class="kw">return</span> <span class="var">a</span> + <span class="var">b</span>
+
+<span class="fn">add</span>(<span class="nm">2</span>, <span class="nm">3</span>)   <span class="cm"># 5</span>
+
+<span class="cm"># Default arguments</span>
+<span class="kw">def</span> <span class="fn">greet</span>(<span class="var">name</span>, <span class="var">msg</span>=<span class="st">"hello"</span>):
+    <span class="kw">return</span> <span class="kw">f</span><span class="st">"{msg} {name}"</span>
+
+<span class="fn">greet</span>(<span class="st">"tarek"</span>)            <span class="cm"># "hello tarek"</span>
+<span class="fn">greet</span>(<span class="st">"tarek"</span>, <span class="st">"hi"</span>)      <span class="cm"># "hi tarek"</span>
+
+<span class="cm"># Multiple return values — returns a tuple</span>
+<span class="kw">def</span> <span class="fn">min_max</span>(<span class="var">arr</span>):
+    <span class="kw">return</span> <span class="bi">min</span>(<span class="var">arr</span>), <span class="bi">max</span>(<span class="var">arr</span>)
+
+<span class="var">lo</span>, <span class="var">hi</span> = <span class="fn">min_max</span>([<span class="nm">3</span>,<span class="nm">1</span>,<span class="nm">4</span>])   <span class="cm"># unpack directly</span>
+
+<span class="cm"># Early return — same as Scala</span>
+<span class="kw">def</span> <span class="fn">find</span>(<span class="var">nums</span>, <span class="var">target</span>):
+    <span class="kw">for</span> <span class="var">i</span>, <span class="var">n</span> <span class="kw">in</span> <span class="bi">enumerate</span>(<span class="var">nums</span>):
+        <span class="kw">if</span> <span class="var">n</span> == <span class="var">target</span>:
+            <span class="kw">return</span> <span class="var">i</span>    <span class="cm"># returns immediately</span>
+    <span class="kw">return</span> <span class="op">-</span><span class="nm">1</span>           <span class="cm"># only reached if not found</span>
+
+<span class="cm"># Functions with no return statement return None implicitly</span>
+<span class="kw">def</span> <span class="fn">do_nothing</span>(): <span class="kw">pass</span>   <span class="cm"># pass = empty body placeholder</span>
+
+<span class="cm"># Type hints (optional but good practice)</span>
+<span class="kw">def</span> <span class="fn">two_sum</span>(<span class="var">nums</span>: <span class="bi">list</span>[<span class="bi">int</span>], <span class="var">target</span>: <span class="bi">int</span>) -> <span class="bi">list</span>[<span class="bi">int</span>]:
+    <span class="kw">pass</span>   <span class="cm"># LeetCode provides these signatures — don't change them</span></pre>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Lambda functions <span class="tag tag-core">CORE</span></h3>
+                <p>A <code>lambda</code> is an anonymous one-liner function. You'll use these almost exclusively as the <code>key=</code> argument to <code>sort()</code> and <code>sorted()</code>.</p>
+                <div class="code-block">
+                    <div class="code-header"><div class="code-dots"><div class="code-dot d1"></div><div class="code-dot d2"></div><div class="code-dot d3"></div></div><span class="code-lang">python</span><span class="code-label">lambda — sort keys and inline functions</span></div>
+                    <pre><span class="cm"># lambda args: expression</span>
+<span class="var">double</span> = <span class="kw">lambda</span> <span class="var">x</span>: <span class="var">x</span> <span class="op">*</span> <span class="nm">2</span>
+<span class="fn">double</span>(<span class="nm">5</span>)   <span class="cm"># 10</span>
+
+<span class="cm"># Most common use — custom sort key</span>
+<span class="var">words</span> = [<span class="st">"banana"</span>, <span class="st">"fig"</span>, <span class="st">"apple"</span>]
+<span class="var">words</span>.<span class="fn">sort</span>(<span class="var">key</span>=<span class="kw">lambda</span> <span class="var">w</span>: <span class="bi">len</span>(<span class="var">w</span>))    <span class="cm"># sort by length</span>
+<span class="cm"># ['fig', 'apple', 'banana']</span>
+
+<span class="var">pairs</span> = [(<span class="nm">1</span>,<span class="nm">3</span>), (<span class="nm">2</span>,<span class="nm">1</span>), (<span class="nm">0</span>,<span class="nm">2</span>)]
+<span class="var">pairs</span>.<span class="fn">sort</span>(<span class="var">key</span>=<span class="kw">lambda</span> <span class="var">p</span>: <span class="var">p</span>[<span class="nm">1</span>])        <span class="cm"># sort by second element</span>
+<span class="cm"># [(2,1),(0,2),(1,3)]</span>
+
+<span class="cm"># Multi-key sort (tuple comparison is left-to-right)</span>
+<span class="var">pairs</span>.<span class="fn">sort</span>(<span class="var">key</span>=<span class="kw">lambda</span> <span class="var">p</span>: (<span class="var">p</span>[<span class="nm">1</span>], <span class="op">-</span><span class="var">p</span>[<span class="nm">0</span>]))  <span class="cm"># by second, then reverse first</span>
+
+<span class="cm"># Equivalent to a named function — use whichever is clearer</span>
+<span class="kw">def</span> <span class="fn">by_length</span>(<span class="var">w</span>): <span class="kw">return</span> <span class="bi">len</span>(<span class="var">w</span>)
+<span class="var">words</span>.<span class="fn">sort</span>(<span class="var">key</span>=<span class="fn">by_length</span>)   <span class="cm"># same result</span></pre>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Nested functions & closures <span class="tag tag-pattern">PATTERN</span></h3>
+                <p>In LeetCode you'll constantly define helper functions <em>inside</em> your solution function. This is the standard Python pattern for DFS, backtracking, and DP — the inner function can read variables from the outer scope.</p>
+                <div class="code-block">
+                    <div class="code-header"><div class="code-dots"><div class="code-dot d1"></div><div class="code-dot d2"></div><div class="code-dot d3"></div></div><span class="code-lang">python</span><span class="code-label">nested functions — the LeetCode pattern</span></div>
+                    <pre><span class="cm"># Outer function is the LeetCode solution method</span>
+<span class="kw">def</span> <span class="fn">numIslands</span>(<span class="var">self</span>, <span class="var">grid</span>):
+
+    <span class="cm"># Inner helper — defined inside, sees grid automatically</span>
+    <span class="kw">def</span> <span class="fn">dfs</span>(<span class="var">r</span>, <span class="var">c</span>):
+        <span class="kw">if</span> <span class="var">r</span> < <span class="nm">0</span> <span class="kw">or</span> <span class="var">c</span> < <span class="nm">0</span>: <span class="kw">return</span>     <span class="cm"># uses grid from outer scope</span>
+        <span class="kw">if</span> <span class="var">grid</span>[<span class="var">r</span>][<span class="var">c</span>] != <span class="st">'1'</span>: <span class="kw">return</span>
+        <span class="var">grid</span>[<span class="var">r</span>][<span class="var">c</span>] = <span class="st">'0'</span>
+        <span class="fn">dfs</span>(<span class="var">r</span>+<span class="nm">1</span>, <span class="var">c</span>); <span class="fn">dfs</span>(<span class="var">r</span>-<span class="nm">1</span>, <span class="var">c</span>)
+        <span class="fn">dfs</span>(<span class="var">r</span>, <span class="var">c</span>+<span class="nm">1</span>); <span class="fn">dfs</span>(<span class="var">r</span>, <span class="var">c</span>-<span class="nm">1</span>)
+
+    <span class="var">count</span> = <span class="nm">0</span>
+    <span class="kw">for</span> <span class="var">r</span> <span class="kw">in</span> <span class="bi">range</span>(<span class="bi">len</span>(<span class="var">grid</span>)):
+        <span class="kw">for</span> <span class="var">c</span> <span class="kw">in</span> <span class="bi">range</span>(<span class="bi">len</span>(<span class="var">grid</span>[<span class="nm">0</span>])):
+            <span class="kw">if</span> <span class="var">grid</span>[<span class="var">r</span>][<span class="var">c</span>] == <span class="st">'1'</span>:
+                <span class="fn">dfs</span>(<span class="var">r</span>, <span class="var">c</span>)
+                <span class="var">count</span> += <span class="nm">1</span>
+    <span class="kw">return</span> <span class="var">count</span>
+
+<span class="cm"># Mutating outer-scope variable — need nonlocal keyword</span>
+<span class="kw">def</span> <span class="fn">outer</span>():
+    <span class="var">count</span> = <span class="nm">0</span>
+    <span class="kw">def</span> <span class="fn">inner</span>():
+        <span class="kw">nonlocal</span> <span class="var">count</span>   <span class="cm"># declare intent to modify outer variable</span>
+        <span class="var">count</span> += <span class="nm">1</span>
+    <span class="fn">inner</span>(); <span class="fn">inner</span>()
+    <span class="kw">return</span> <span class="var">count</span>  <span class="cm"># 2</span>
+
+<span class="cm"># Reading is fine without nonlocal — only WRITING needs it</span>
+<span class="kw">def</span> <span class="fn">outer2</span>():
+    <span class="var">grid</span> = [[<span class="nm">1</span>,<span class="nm">2</span>]]
+    <span class="kw">def</span> <span class="fn">inner</span>():
+        <span class="bi">print</span>(<span class="var">grid</span>)   <span class="cm"># fine — just reading</span>
+        <span class="var">grid</span>[<span class="nm">0</span>][<span class="nm">0</span>] = <span class="nm">9</span>  <span class="cm"># fine — mutating a list element, not rebinding</span></pre>
+                </div>
+                <div class="callout callout-scala">
+                    <div class="callout-icon">⚡</div>
+                    <div class="callout-body">
+                        <div class="callout-title">Scala equivalent</div>
+                        <p class="callout-text">This is like defining a <code>def dfs(...)</code> inside another <code>def solve(...)</code> in Scala. The inner function closes over the outer scope — same concept. The <code>nonlocal</code> keyword is only needed when you reassign (not mutate) an outer variable — like using a <code>var</code> instead of <code>val</code>.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Classes — what LeetCode gives you <span class="tag tag-core">CORE</span></h3>
+                <p>You don't write classes from scratch much in LeetCode, but you need to read them. Tree nodes, linked list nodes, and design problems all use classes.</p>
+                <div class="code-block">
+                    <div class="code-header"><div class="code-dots"><div class="code-dot d1"></div><div class="code-dot d2"></div><div class="code-dot d3"></div></div><span class="code-lang">python</span><span class="code-label">classes — reading and writing LeetCode style</span></div>
+                    <pre><span class="cm"># LeetCode always provides node definitions like this:</span>
+<span class="kw">class</span> <span class="cls">TreeNode</span>:
+    <span class="kw">def</span> <span class="fn">__init__</span>(<span class="var">self</span>, <span class="var">val</span>=<span class="nm">0</span>, <span class="var">left</span>=<span class="kw">None</span>, <span class="var">right</span>=<span class="kw">None</span>):
+        <span class="var">self</span>.<span class="var">val</span>   = <span class="var">val</span>    <span class="cm"># self = this (Java/Scala)</span>
+        <span class="var">self</span>.<span class="var">left</span>  = <span class="var">left</span>
+        <span class="var">self</span>.<span class="var">right</span> = <span class="var">right</span>
+
+<span class="cm"># Your solution is always a method on a Solution class:</span>
+<span class="kw">class</span> <span class="cls">Solution</span>:
+    <span class="kw">def</span> <span class="fn">twoSum</span>(<span class="var">self</span>, <span class="var">nums</span>: <span class="bi">list</span>[<span class="bi">int</span>], <span class="var">target</span>: <span class="bi">int</span>) -> <span class="bi">list</span>[<span class="bi">int</span>]:
+        <span class="cm"># self is mandatory first arg — ignore it, just use it</span>
+        <span class="var">seen</span> = {}
+        <span class="kw">for</span> <span class="var">i</span>, <span class="var">n</span> <span class="kw">in</span> <span class="bi">enumerate</span>(<span class="var">nums</span>):
+            <span class="kw">if</span> <span class="var">target</span> - <span class="var">n</span> <span class="kw">in</span> <span class="var">seen</span>:
+                <span class="kw">return</span> [<span class="var">seen</span>[<span class="var">target</span>-<span class="var">n</span>], <span class="var">i</span>]
+            <span class="var">seen</span>[<span class="var">n</span>] = <span class="var">i</span>
+
+<span class="cm"># Design problems ask you to implement a class with methods:</span>
+<span class="kw">class</span> <span class="cls">MinStack</span>:
+    <span class="kw">def</span> <span class="fn">__init__</span>(<span class="var">self</span>):
+        <span class="var">self</span>.<span class="var">stack</span>     = []
+        <span class="var">self</span>.<span class="var">min_stack</span> = []
+
+    <span class="kw">def</span> <span class="fn">push</span>(<span class="var">self</span>, <span class="var">val</span>):
+        <span class="var">self</span>.<span class="var">stack</span>.<span class="fn">append</span>(<span class="var">val</span>)
+        <span class="var">m</span> = <span class="bi">min</span>(<span class="var">val</span>, <span class="var">self</span>.<span class="var">min_stack</span>[<span class="op">-</span><span class="nm">1</span>] <span class="kw">if</span> <span class="var">self</span>.<span class="var">min_stack</span> <span class="kw">else</span> <span class="var">val</span>)
+        <span class="var">self</span>.<span class="var">min_stack</span>.<span class="fn">append</span>(<span class="var">m</span>)
+
+    <span class="kw">def</span> <span class="fn">pop</span>(<span class="var">self</span>):
+        <span class="var">self</span>.<span class="var">stack</span>.<span class="fn">pop</span>()
+        <span class="var">self</span>.<span class="var">min_stack</span>.<span class="fn">pop</span>()
+
+    <span class="kw">def</span> <span class="fn">getMin</span>(<span class="var">self</span>):
+        <span class="kw">return</span> <span class="var">self</span>.<span class="var">min_stack</span>[<span class="op">-</span><span class="nm">1</span>]</pre>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Error types you'll encounter <span class="tag tag-gotcha">GOTCHA</span></h3>
+                <p>LeetCode won't always tell you clearly what went wrong. Knowing these errors saves debugging time.</p>
+                <div class="code-block">
+                    <div class="code-header"><div class="code-dots"><div class="code-dot d1"></div><div class="code-dot d2"></div><div class="code-dot d3"></div></div><span class="code-lang">python</span><span class="code-label">common runtime errors</span></div>
+                    <pre><span class="cm"># IndexError — accessing out-of-bounds index</span>
+<span class="var">arr</span> = [<span class="nm">1</span>, <span class="nm">2</span>, <span class="nm">3</span>]
+<span class="var">arr</span>[<span class="nm">5</span>]          <span class="cm"># IndexError: list index out of range</span>
+<span class="cm"># Fix: check len(arr) before accessing, or use .get() for dicts</span>
+
+<span class="cm"># KeyError — accessing missing dict key</span>
+<span class="var">d</span> = {<span class="st">"a"</span>: <span class="nm">1</span>}
+<span class="var">d</span>[<span class="st">"z"</span>]          <span class="cm"># KeyError: 'z'</span>
+<span class="cm"># Fix: use d.get("z", 0) or check "z" in d first</span>
+
+<span class="cm"># TypeError — wrong type for operation</span>
+<span class="st">"hello"</span> + <span class="nm">5</span>     <span class="cm"># TypeError: can only concatenate str (not int)</span>
+<span class="cm"># Fix: str(5) first</span>
+
+<span class="cm"># RecursionError — hit Python's ~1000 frame limit</span>
+<span class="kw">def</span> <span class="fn">bad</span>(<span class="var">n</span>): <span class="kw">return</span> <span class="fn">bad</span>(<span class="var">n</span>+<span class="nm">1</span>)   <span class="cm"># RecursionError</span>
+<span class="cm"># Fix: add base case, or use iterative approach</span>
+
+<span class="cm"># AttributeError — calling method on None</span>
+<span class="var">node</span> = <span class="kw">None</span>
+<span class="var">node</span>.<span class="var">val</span>         <span class="cm"># AttributeError: 'NoneType' has no 'val'</span>
+<span class="cm"># Fix: check "if node:" before accessing</span>
+
+<span class="cm"># ZeroDivisionError</span>
+<span class="nm">5</span> <span class="op">/</span> <span class="nm">0</span>            <span class="cm"># ZeroDivisionError</span>
+<span class="cm"># Fix: guard with "if divisor != 0:"</span></pre>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Mutability — the most important concept to internalise <span class="tag tag-gotcha">GOTCHA</span></h3>
+                <p>This trips up engineers from every background. Python passes objects by reference — mutable objects (lists, dicts) can be modified inside functions; immutable objects (int, str, tuple) cannot.</p>
+                <div class="code-block">
+                    <div class="code-header"><div class="code-dots"><div class="code-dot d1"></div><div class="code-dot d2"></div><div class="code-dot d3"></div></div><span class="code-lang">python</span><span class="code-label">mutable vs immutable — the gotcha</span></div>
+                    <pre><span class="cm"># Immutable: int, str, tuple, bool, float</span>
+<span class="kw">def</span> <span class="fn">try_modify</span>(<span class="var">x</span>):
+    <span class="var">x</span> = <span class="nm">99</span>   <span class="cm"># rebinds local name — original unchanged</span>
+<span class="var">n</span> = <span class="nm">5</span>
+<span class="fn">try_modify</span>(<span class="var">n</span>)
+<span class="bi">print</span>(<span class="var">n</span>)   <span class="cm"># still 5</span>
+
+<span class="cm"># Mutable: list, dict, set — modifications ARE reflected outside</span>
+<span class="kw">def</span> <span class="fn">try_mutate</span>(<span class="var">arr</span>):
+    <span class="var">arr</span>.<span class="fn">append</span>(<span class="nm">99</span>)   <span class="cm"># mutates the same list object</span>
+<span class="var">my_list</span> = [<span class="nm">1</span>, <span class="nm">2</span>, <span class="nm">3</span>]
+<span class="fn">try_mutate</span>(<span class="var">my_list</span>)
+<span class="bi">print</span>(<span class="var">my_list</span>)   <span class="cm"># [1, 2, 3, 99] — modified!</span>
+
+<span class="cm"># Copy a list to avoid unintended mutation</span>
+<span class="var">original</span> = [<span class="nm">1</span>, <span class="nm">2</span>, <span class="nm">3</span>]
+<span class="var">copy</span> = <span class="var">original</span>[:]       <span class="cm"># shallow copy</span>
+<span class="var">copy</span> = <span class="var">original</span>.<span class="fn">copy</span>()  <span class="cm"># same thing</span>
+<span class="var">copy</span>.<span class="fn">append</span>(<span class="nm">99</span>)
+<span class="bi">print</span>(<span class="var">original</span>)  <span class="cm"># [1, 2, 3] — unchanged</span>
+
+<span class="cm"># In backtracking: snapshot the list when recording results</span>
+<span class="var">result</span> = []
+<span class="kw">def</span> <span class="fn">backtrack</span>(<span class="var">path</span>):
+    <span class="var">result</span>.<span class="fn">append</span>(<span class="var">path</span>)        <span class="cm"># WRONG — appends reference, path will change</span>
+    <span class="var">result</span>.<span class="fn">append</span>(<span class="var">path</span>[<span class="cm">:</span>])    <span class="cm"># CORRECT — append a copy</span>
+    <span class="var">result</span>.<span class="fn">append</span>(<span class="bi">list</span>(<span class="var">path</span>)) <span class="cm"># also correct</span></pre>
+                </div>
+                <div class="callout callout-scala">
+                    <div class="callout-icon">⚡</div>
+                    <div class="callout-body">
+                        <div class="callout-title">Scala brain: this is like var vs val, but subtler</div>
+                        <p class="callout-text">In Scala, a <code>val list: List[Int]</code> is immutable. In Python, a <code>list</code> is always mutable — there's no immutable list by default (use <code>tuple</code> for that). The closest Python equivalent to Scala's immutable collections is <code>tuple</code> for sequences and <code>frozenset</code> for sets.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>map, filter, zip, enumerate <span class="tag tag-builtin">BUILT-IN</span></h3>
+                <p>These higher-order functions will feel familiar from Scala. In practice, comprehensions are more idiomatic Python, but knowing these helps you read others' code.</p>
+                <div class="code-block">
+                    <div class="code-header"><div class="code-dots"><div class="code-dot d1"></div><div class="code-dot d2"></div><div class="code-dot d3"></div></div><span class="code-lang">python</span><span class="code-label">map, filter, zip, enumerate</span></div>
+                    <pre><span class="var">nums</span> = [<span class="nm">1</span>, <span class="nm">2</span>, <span class="nm">3</span>, <span class="nm">4</span>]
+
+<span class="cm"># map — apply function to each element (lazy, wrap in list)</span>
+<span class="bi">list</span>(<span class="bi">map</span>(<span class="kw">lambda</span> <span class="var">x</span>: <span class="var">x</span><span class="op">**</span><span class="nm">2</span>, <span class="var">nums</span>))  <span class="cm"># [1, 4, 9, 16]</span>
+<span class="cm"># Scala: nums.map(x => x*x)</span>
+<span class="cm"># Prefer comprehension: [x**2 for x in nums]</span>
+
+<span class="cm"># filter — keep elements matching predicate</span>
+<span class="bi">list</span>(<span class="bi">filter</span>(<span class="kw">lambda</span> <span class="var">x</span>: <span class="var">x</span> <span class="op">%</span> <span class="nm">2</span> == <span class="nm">0</span>, <span class="var">nums</span>))  <span class="cm"># [2, 4]</span>
+<span class="cm"># Prefer comprehension: [x for x in nums if x % 2 == 0]</span>
+
+<span class="cm"># enumerate — get index + value simultaneously</span>
+<span class="kw">for</span> <span class="var">i</span>, <span class="var">v</span> <span class="kw">in</span> <span class="bi">enumerate</span>([<span class="st">'a'</span>, <span class="st">'b'</span>, <span class="st">'c'</span>]):
+    <span class="bi">print</span>(<span class="var">i</span>, <span class="var">v</span>)   <span class="cm"># 0 a, 1 b, 2 c</span>
+<span class="bi">enumerate</span>([<span class="st">'a'</span>,<span class="st">'b'</span>], <span class="nm">1</span>)  <span class="cm"># start index at 1</span>
+
+<span class="cm"># zip — pair elements from two iterables</span>
+<span class="var">keys</span>   = [<span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"c"</span>]
+<span class="var">values</span> = [<span class="nm">1</span>,   <span class="nm">2</span>,   <span class="nm">3</span>  ]
+<span class="kw">for</span> <span class="var">k</span>, <span class="var">v</span> <span class="kw">in</span> <span class="bi">zip</span>(<span class="var">keys</span>, <span class="var">values</span>):
+    <span class="bi">print</span>(<span class="var">k</span>, <span class="var">v</span>)   <span class="cm"># a 1, b 2, c 3</span>
+<span class="bi">dict</span>(<span class="bi">zip</span>(<span class="var">keys</span>, <span class="var">values</span>))  <span class="cm"># {'a':1,'b':2,'c':3}</span>
+<span class="cm"># zip stops at the SHORTEST iterable</span>
+
+<span class="cm"># any / all — short-circuit evaluation</span>
+<span class="bi">any</span>(<span class="var">x</span> > <span class="nm">3</span> <span class="kw">for</span> <span class="var">x</span> <span class="kw">in</span> <span class="var">nums</span>)   <span class="cm"># True  (like .exists() in Scala)</span>
+<span class="bi">all</span>(<span class="var">x</span> > <span class="nm">0</span> <span class="kw">for</span> <span class="var">x</span> <span class="kw">in</span> <span class="var">nums</span>)   <span class="cm"># True  (like .forall() in Scala)</span>
+<span class="bi">any</span>([])   <span class="cm"># False — empty is never "any"</span>
+<span class="bi">all</span>([])   <span class="cm"># True  — vacuously true</span></pre>
+                </div>
+            </div>
+        </div>
+
+        <!-- ══════════════════════════════════════════════════════════════
+             S1 — LANGUAGE MECHANICS
+        ══════════════════════════════════════════════════════════════ -->
+        <div class="section" id="s1">
+            <div class="section-header">
+                <span class="section-num">01</span>
+                <div>
+                    <h2>Language Mechanics</h2>
+                    <div class="section-desc">The Python syntax you'll write 100 times in interviews</div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>Variables, Types, Unpacking <span class="tag tag-core">CORE</span></h3>
+                <p>Python is dynamically typed — no type declarations. Variables are just names bound to objects. This is unlike Scala's <code>val</code>/<code>var</code> with explicit types, but you should mentally track types anyway.</p>
+                <div class="code-block">
+                    <div class="code-header"><div class="code-dots"><div class="code-dot d1"></div><div class="code-dot d2"></div><div class="code-dot d3"></div></div><span class="code-lang">python</span><span class="code-label">variables & unpacking</span></div>
+                    <pre><span class="cm"># Basic assignment — no val/var, no type annotation needed</span>
 <span class="var">x</span> = <span class="nm">5</span>
 <span class="var">name</span> = <span class="st">"tarek"</span>
 <span class="var">flag</span> = <span class="kw">True</span>     <span class="cm"># capital T, unlike Scala's true</span>
@@ -637,22 +1249,22 @@ code {
 <span class="var">big</span> = <span class="nm">10</span> <span class="op">**</span> <span class="nm">18</span>  <span class="cm"># works fine, unlike Java's Long.MaxValue concerns</span>
 <span class="var">inf</span> = <span class="bi">float</span>(<span class="st">'inf'</span>)   <span class="cm"># use for "sentinel max" in DP, Dijkstra etc</span>
 <span class="var">neg_inf</span> = <span class="bi">float</span>(<span class="st">'-inf'</span>)</pre>
-    </div>
-    <div class="callout callout-scala">
-      <div class="callout-icon">⚡</div>
-      <div class="callout-body">
-        <div class="callout-title">Scala brain: unbounded ints</div>
-        <p class="callout-text">In Scala you'd worry about <code>Int.MaxValue</code> overflow. In Python, <code>int</code> is arbitrary precision. Never guard against overflow — it doesn't exist here. Use <code>float('inf')</code> as your sentinel "infinity" value.</p>
-      </div>
-    </div>
-  </div>
+                </div>
+                <div class="callout callout-scala">
+                    <div class="callout-icon">⚡</div>
+                    <div class="callout-body">
+                        <div class="callout-title">Scala brain: unbounded ints</div>
+                        <p class="callout-text">In Scala you'd worry about <code>Int.MaxValue</code> overflow. In Python, <code>int</code> is arbitrary precision. Never guard against overflow — it doesn't exist here. Use <code>float('inf')</code> as your sentinel "infinity" value.</p>
+                    </div>
+                </div>
+            </div>
 
-  <div class="subsection">
-    <h3>Slicing <span class="tag tag-core">CORE</span></h3>
-    <p>Slicing is one of Python's most powerful features. Works on strings, lists, anything subscriptable. The syntax is <code>arr[start:stop:step]</code> — all three are optional.</p>
-    <div class="code-block">
-      <div class="code-header"><div class="code-dots"><div class="code-dot d1"></div><div class="code-dot d2"></div><div class="code-dot d3"></div></div><span class="code-lang">python</span><span class="code-label">slicing — used constantly</span></div>
-<pre><span class="var">s</span> = <span class="st">"leetcode"</span>
+            <div class="subsection">
+                <h3>Slicing <span class="tag tag-core">CORE</span></h3>
+                <p>Slicing is one of Python's most powerful features. Works on strings, lists, anything subscriptable. The syntax is <code>arr[start:stop:step]</code> — all three are optional.</p>
+                <div class="code-block">
+                    <div class="code-header"><div class="code-dots"><div class="code-dot d1"></div><div class="code-dot d2"></div><div class="code-dot d3"></div></div><span class="code-lang">python</span><span class="code-label">slicing — used constantly</span></div>
+                    <pre><span class="var">s</span> = <span class="st">"leetcode"</span>
 <span class="var">arr</span> = [<span class="nm">1</span>, <span class="nm">2</span>, <span class="nm">3</span>, <span class="nm">4</span>, <span class="nm">5</span>]
 
 <span class="cm"># Basic slice [start:stop] — stop is EXCLUSIVE</span>
@@ -676,15 +1288,15 @@ code {
 <span class="cm"># Check palindrome — classic use</span>
 <span class="kw">def</span> <span class="fn">is_palindrome</span>(<span class="var">s</span>):
     <span class="kw">return</span> <span class="var">s</span> == <span class="var">s</span>[::<span class="op">-</span><span class="nm">1</span>]</pre>
-    </div>
-  </div>
+                </div>
+            </div>
 
-  <div class="subsection">
-    <h3>Comprehensions <span class="tag tag-core">CORE</span></h3>
-    <p>Comprehensions replace verbose <code>for</code> loops. They're more readable, faster, and idiomatic. You'll use these in almost every medium+ problem.</p>
-    <div class="code-block">
-      <div class="code-header"><div class="code-dots"><div class="code-dot d1"></div><div class="code-dot d2"></div><div class="code-dot d3"></div></div><span class="code-lang">python</span><span class="code-label">comprehensions — list, dict, set</span></div>
-<pre><span class="var">nums</span> = [<span class="nm">1</span>, <span class="op">-</span><span class="nm">2</span>, <span class="nm">3</span>, <span class="op">-</span><span class="nm">4</span>, <span class="nm">5</span>]
+            <div class="subsection">
+                <h3>Comprehensions <span class="tag tag-core">CORE</span></h3>
+                <p>Comprehensions replace verbose <code>for</code> loops. They're more readable, faster, and idiomatic. You'll use these in almost every medium+ problem.</p>
+                <div class="code-block">
+                    <div class="code-header"><div class="code-dots"><div class="code-dot d1"></div><div class="code-dot d2"></div><div class="code-dot d3"></div></div><span class="code-lang">python</span><span class="code-label">comprehensions — list, dict, set</span></div>
+                    <pre><span class="var">nums</span> = [<span class="nm">1</span>, <span class="op">-</span><span class="nm">2</span>, <span class="nm">3</span>, <span class="op">-</span><span class="nm">4</span>, <span class="nm">5</span>]
 
 <span class="cm"># List comprehension — equivalent to Scala's .map().filter()</span>
 <span class="var">positives</span> = [<span class="var">x</span> <span class="kw">for</span> <span class="var">x</span> <span class="kw">in</span> <span class="var">nums</span> <span class="kw">if</span> <span class="var">x</span> > <span class="nm">0</span>]       <span class="cm"># [1, 3, 5]</span>
@@ -706,21 +1318,21 @@ code {
 <span class="cm"># Nested comprehension (flatten 2D)</span>
 <span class="var">grid</span> = [[<span class="nm">1</span>,<span class="nm">2</span>],[<span class="nm">3</span>,<span class="nm">4</span>]]
 <span class="var">flat</span> = [<span class="var">x</span> <span class="kw">for</span> <span class="var">row</span> <span class="kw">in</span> <span class="var">grid</span> <span class="kw">for</span> <span class="var">x</span> <span class="kw">in</span> <span class="var">row</span>]  <span class="cm"># [1,2,3,4]</span></pre>
-    </div>
-    <div class="callout callout-warn">
-      <div class="callout-icon">⚠️</div>
-      <div class="callout-body">
-        <div class="callout-title">The 2D matrix gotcha</div>
-        <p class="callout-text"><code>[[0]*3]*3</code> creates three references to the SAME inner list. Modifying <code>grid[0][0]</code> modifies all rows. Always use <code>[[0]*cols for _ in range(rows)]</code> instead.</p>
-      </div>
-    </div>
-  </div>
+                </div>
+                <div class="callout callout-warn">
+                    <div class="callout-icon">⚠️</div>
+                    <div class="callout-body">
+                        <div class="callout-title">The 2D matrix gotcha</div>
+                        <p class="callout-text"><code>[[0]*3]*3</code> creates three references to the SAME inner list. Modifying <code>grid[0][0]</code> modifies all rows. Always use <code>[[0]*cols for _ in range(rows)]</code> instead.</p>
+                    </div>
+                </div>
+            </div>
 
-  <div class="subsection">
-    <h3>Control Flow <span class="tag tag-core">CORE</span></h3>
-    <div class="code-block">
-      <div class="code-header"><div class="code-dots"><div class="code-dot d1"></div><div class="code-dot d2"></div><div class="code-dot d3"></div></div><span class="code-lang">python</span><span class="code-label">loops & control</span></div>
-<pre><span class="cm"># enumerate — get index AND value (use this, not range+index)</span>
+            <div class="subsection">
+                <h3>Control Flow <span class="tag tag-core">CORE</span></h3>
+                <div class="code-block">
+                    <div class="code-header"><div class="code-dots"><div class="code-dot d1"></div><div class="code-dot d2"></div><div class="code-dot d3"></div></div><span class="code-lang">python</span><span class="code-label">loops & control</span></div>
+                    <pre><span class="cm"># enumerate — get index AND value (use this, not range+index)</span>
 <span class="kw">for</span> <span class="var">i</span>, <span class="var">val</span> <span class="kw">in</span> <span class="bi">enumerate</span>([<span class="st">'a'</span>,<span class="st">'b'</span>,<span class="st">'c'</span>]):
     <span class="bi">print</span>(<span class="var">i</span>, <span class="var">val</span>)  <span class="cm"># 0 a, 1 b, 2 c</span>
 
@@ -749,35 +1361,35 @@ code {
 <span class="nm">7</span>  <span class="op">%</span> <span class="nm">2</span>   <span class="cm"># 1</span>
 <span class="op">-</span><span class="nm">7</span> <span class="op">//</span> <span class="nm">2</span>  <span class="cm"># -4  ← Python floors towards -inf, unlike Java's truncation!</span>
 <span class="bi">int</span>(<span class="op">-</span><span class="nm">7</span> <span class="op">/</span> <span class="nm">2</span>)  <span class="cm"># -3  ← use this if you want Java/Scala truncation behaviour</span></pre>
-    </div>
-    <div class="callout callout-warn">
-      <div class="callout-icon">⚠️</div>
-      <div class="callout-body">
-        <div class="callout-title">Floor division difference from Scala/Java</div>
-        <p class="callout-text">Python's <code>//</code> floors towards negative infinity. <code>-7 // 2 = -4</code> in Python but <code>-7 / 2 = -3</code> in Scala (truncation). For LeetCode with negative numbers, use <code>int(-7 / 2)</code> if you want truncation, or be aware of which you need.</p>
-      </div>
-    </div>
-  </div>
-</div>
+                </div>
+                <div class="callout callout-warn">
+                    <div class="callout-icon">⚠️</div>
+                    <div class="callout-body">
+                        <div class="callout-title">Floor division difference from Scala/Java</div>
+                        <p class="callout-text">Python's <code>//</code> floors towards negative infinity. <code>-7 // 2 = -4</code> in Python but <code>-7 / 2 = -3</code> in Scala (truncation). For LeetCode with negative numbers, use <code>int(-7 / 2)</code> if you want truncation, or be aware of which you need.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-<!-- ══════════════════════════════════════════════════════════════
-     S2 — COLLECTIONS
-══════════════════════════════════════════════════════════════ -->
-<div class="section" id="s2">
-  <div class="section-header">
-    <span class="section-num">02</span>
-    <div>
-      <h2>Collections Deep Dive</h2>
-      <div class="section-desc">The six data structures that cover 90% of LeetCode problems</div>
-    </div>
-  </div>
+        <!-- ══════════════════════════════════════════════════════════════
+             S2 — COLLECTIONS
+        ══════════════════════════════════════════════════════════════ -->
+        <div class="section" id="s2">
+            <div class="section-header">
+                <span class="section-num">02</span>
+                <div>
+                    <h2>Collections Deep Dive</h2>
+                    <div class="section-desc">The six data structures that cover 90% of LeetCode problems</div>
+                </div>
+            </div>
 
-  <div class="subsection">
-    <h3>List — Your Default Array <span class="tag tag-core">CORE</span></h3>
-    <p>Python's <code>list</code> is a dynamic array. It's what you'll use for stacks, general arrays, and anything indexed. Key: <strong>append/pop at the end is O(1), at the front is O(n)</strong>.</p>
-    <div class="code-block">
-      <div class="code-header"><div class="code-dots"><div class="code-dot d1"></div><div class="code-dot d2"></div><div class="code-dot d3"></div></div><span class="code-lang">python</span><span class="code-label">list — stack usage + key ops</span></div>
-<pre><span class="var">arr</span> = [<span class="nm">3</span>, <span class="nm">1</span>, <span class="nm">4</span>, <span class="nm">1</span>, <span class="nm">5</span>]
+            <div class="subsection">
+                <h3>List — Your Default Array <span class="tag tag-core">CORE</span></h3>
+                <p>Python's <code>list</code> is a dynamic array. It's what you'll use for stacks, general arrays, and anything indexed. Key: <strong>append/pop at the end is O(1), at the front is O(n)</strong>.</p>
+                <div class="code-block">
+                    <div class="code-header"><div class="code-dots"><div class="code-dot d1"></div><div class="code-dot d2"></div><div class="code-dot d3"></div></div><span class="code-lang">python</span><span class="code-label">list — stack usage + key ops</span></div>
+                    <pre><span class="var">arr</span> = [<span class="nm">3</span>, <span class="nm">1</span>, <span class="nm">4</span>, <span class="nm">1</span>, <span class="nm">5</span>]
 
 <span class="cm"># O(1) operations</span>
 <span class="var">arr</span>.<span class="fn">append</span>(<span class="nm">9</span>)       <span class="cm"># add to end  → [3,1,4,1,5,9]</span>
@@ -801,15 +1413,15 @@ code {
 
 <span class="cm"># Check membership</span>
 <span class="nm">3</span> <span class="kw">in</span> <span class="var">arr</span>            <span class="cm"># O(n) — use set for O(1) lookups</span></pre>
-    </div>
-  </div>
+                </div>
+            </div>
 
-  <div class="subsection">
-    <h3>dict — HashMap <span class="tag tag-core">CORE</span></h3>
-    <p>Python's <code>dict</code> is your HashMap. All operations — get, set, delete, membership — are O(1) average. <strong>This is the most used structure in LeetCode after list</strong>.</p>
-    <div class="code-block">
-      <div class="code-header"><div class="code-dots"><div class="code-dot d1"></div><div class="code-dot d2"></div><div class="code-dot d3"></div></div><span class="code-lang">python</span><span class="code-label">dict — hashmap patterns</span></div>
-<pre><span class="var">freq</span> = {}
+            <div class="subsection">
+                <h3>dict — HashMap <span class="tag tag-core">CORE</span></h3>
+                <p>Python's <code>dict</code> is your HashMap. All operations — get, set, delete, membership — are O(1) average. <strong>This is the most used structure in LeetCode after list</strong>.</p>
+                <div class="code-block">
+                    <div class="code-header"><div class="code-dots"><div class="code-dot d1"></div><div class="code-dot d2"></div><div class="code-dot d3"></div></div><span class="code-lang">python</span><span class="code-label">dict — hashmap patterns</span></div>
+                    <pre><span class="var">freq</span> = {}
 
 <span class="cm"># Safe get with default — avoids KeyError</span>
 <span class="var">freq</span>.<span class="fn">get</span>(<span class="st">'a'</span>, <span class="nm">0</span>)        <span class="cm"># returns 0 if 'a' absent</span>
@@ -837,15 +1449,15 @@ code {
             <span class="kw">return</span> [<span class="var">seen</span>[<span class="var">complement</span>], <span class="var">i</span>]
         <span class="var">seen</span>[<span class="var">n</span>] = <span class="var">i</span>
     <span class="kw">return</span> []</pre>
-    </div>
-  </div>
+                </div>
+            </div>
 
-  <div class="subsection">
-    <h3>defaultdict & Counter <span class="tag tag-builtin">BUILT-IN</span></h3>
-    <p>Both from <code>collections</code>. These eliminate boilerplate and are faster than rolling your own frequency maps.</p>
-    <div class="code-block">
-      <div class="code-header"><div class="code-dots"><div class="code-dot d1"></div><div class="code-dot d2"></div><div class="code-dot d3"></div></div><span class="code-lang">python</span><span class="code-label">defaultdict + Counter</span></div>
-<pre><span class="kw">from</span> <span class="var">collections</span> <span class="kw">import</span> <span class="cls">defaultdict</span>, <span class="cls">Counter</span>
+            <div class="subsection">
+                <h3>defaultdict & Counter <span class="tag tag-builtin">BUILT-IN</span></h3>
+                <p>Both from <code>collections</code>. These eliminate boilerplate and are faster than rolling your own frequency maps.</p>
+                <div class="code-block">
+                    <div class="code-header"><div class="code-dots"><div class="code-dot d1"></div><div class="code-dot d2"></div><div class="code-dot d3"></div></div><span class="code-lang">python</span><span class="code-label">defaultdict + Counter</span></div>
+                    <pre><span class="kw">from</span> <span class="var">collections</span> <span class="kw">import</span> <span class="cls">defaultdict</span>, <span class="cls">Counter</span>
 
 <span class="cm"># defaultdict — auto-creates missing keys with a default factory</span>
 <span class="var">graph</span> = <span class="cls">defaultdict</span>(<span class="bi">list</span>)   <span class="cm"># missing key → empty list</span>
@@ -871,15 +1483,15 @@ code {
 
 <span class="cm"># Check anagram: are two words anagrams?</span>
 <span class="cls">Counter</span>(<span class="st">"anagram"</span>) == <span class="cls">Counter</span>(<span class="st">"nagaram"</span>)  <span class="cm"># True</span></pre>
-    </div>
-  </div>
+                </div>
+            </div>
 
-  <div class="subsection">
-    <h3>deque — O(1) Queue <span class="tag tag-core">CORE</span></h3>
-    <p>Use <code>deque</code> whenever you need O(1) append/pop from BOTH ends. This is your queue for BFS and your sliding window deque for monotonic problems.</p>
-    <div class="code-block">
-      <div class="code-header"><div class="code-dots"><div class="code-dot d1"></div><div class="code-dot d2"></div><div class="code-dot d3"></div></div><span class="code-lang">python</span><span class="code-label">deque — queue and sliding window</span></div>
-<pre><span class="kw">from</span> <span class="var">collections</span> <span class="kw">import</span> <span class="cls">deque</span>
+            <div class="subsection">
+                <h3>deque — O(1) Queue <span class="tag tag-core">CORE</span></h3>
+                <p>Use <code>deque</code> whenever you need O(1) append/pop from BOTH ends. This is your queue for BFS and your sliding window deque for monotonic problems.</p>
+                <div class="code-block">
+                    <div class="code-header"><div class="code-dots"><div class="code-dot d1"></div><div class="code-dot d2"></div><div class="code-dot d3"></div></div><span class="code-lang">python</span><span class="code-label">deque — queue and sliding window</span></div>
+                    <pre><span class="kw">from</span> <span class="var">collections</span> <span class="kw">import</span> <span class="cls">deque</span>
 
 <span class="var">q</span> = <span class="cls">deque</span>()
 
@@ -899,15 +1511,15 @@ code {
 
 <span class="cm"># maxlen — sliding window of fixed size</span>
 <span class="var">window</span> = <span class="cls">deque</span>(<span class="var">maxlen</span>=<span class="nm">3</span>)  <span class="cm"># auto-evicts oldest when full</span></pre>
-    </div>
-  </div>
+                </div>
+            </div>
 
-  <div class="subsection">
-    <h3>heapq — Priority Queue <span class="tag tag-core">CORE</span></h3>
-    <p>Python only has a min-heap via <code>heapq</code>. For a max-heap, negate values. This is essential for top-K problems, Dijkstra, and scheduling.</p>
-    <div class="code-block">
-      <div class="code-header"><div class="code-dots"><div class="code-dot d1"></div><div class="code-dot d2"></div><div class="code-dot d3"></div></div><span class="code-lang">python</span><span class="code-label">heapq — min-heap and max-heap trick</span></div>
-<pre><span class="kw">import</span> <span class="var">heapq</span>
+            <div class="subsection">
+                <h3>heapq — Priority Queue <span class="tag tag-core">CORE</span></h3>
+                <p>Python only has a min-heap via <code>heapq</code>. For a max-heap, negate values. This is essential for top-K problems, Dijkstra, and scheduling.</p>
+                <div class="code-block">
+                    <div class="code-header"><div class="code-dots"><div class="code-dot d1"></div><div class="code-dot d2"></div><div class="code-dot d3"></div></div><span class="code-lang">python</span><span class="code-label">heapq — min-heap and max-heap trick</span></div>
+                    <pre><span class="kw">import</span> <span class="var">heapq</span>
 
 <span class="cm"># Min-heap</span>
 <span class="var">h</span> = []
@@ -933,14 +1545,14 @@ code {
 <span class="cm"># Top-K smallest/largest — very common LeetCode pattern</span>
 <span class="var">heapq</span>.<span class="fn">nsmallest</span>(<span class="nm">3</span>, <span class="var">arr</span>)   <span class="cm"># [1, 3, 4]</span>
 <span class="var">heapq</span>.<span class="fn">nlargest</span>(<span class="nm">3</span>, <span class="var">arr</span>)    <span class="cm"># [5, 4, 3]</span></pre>
-    </div>
-  </div>
+                </div>
+            </div>
 
-  <div class="subsection">
-    <h3>set — O(1) Membership <span class="tag tag-core">CORE</span></h3>
-    <div class="code-block">
-      <div class="code-header"><div class="code-dots"><div class="code-dot d1"></div><div class="code-dot d2"></div><div class="code-dot d3"></div></div><span class="code-lang">python</span><span class="code-label">set — lookups, visited tracking</span></div>
-<pre><span class="var">s</span> = {<span class="nm">1</span>, <span class="nm">2</span>, <span class="nm">3</span>}
+            <div class="subsection">
+                <h3>set — O(1) Membership <span class="tag tag-core">CORE</span></h3>
+                <div class="code-block">
+                    <div class="code-header"><div class="code-dots"><div class="code-dot d1"></div><div class="code-dot d2"></div><div class="code-dot d3"></div></div><span class="code-lang">python</span><span class="code-label">set — lookups, visited tracking</span></div>
+                    <pre><span class="var">s</span> = {<span class="nm">1</span>, <span class="nm">2</span>, <span class="nm">3</span>}
 <span class="var">s</span>.<span class="fn">add</span>(<span class="nm">4</span>)        <span class="cm"># O(1)</span>
 <span class="var">s</span>.<span class="fn">remove</span>(<span class="nm">2</span>)     <span class="cm"># O(1) — raises KeyError if absent</span>
 <span class="var">s</span>.<span class="fn">discard</span>(<span class="nm">99</span>)   <span class="cm"># O(1) — safe, no error if absent</span>
@@ -959,27 +1571,27 @@ code {
 <span class="var">visited</span> = <span class="bi">set</span>()
 <span class="var">visited</span>.<span class="fn">add</span>(<span class="var">node</span>)
 <span class="kw">if</span> <span class="var">node</span> <span class="kw">not in</span> <span class="var">visited</span>: ...</pre>
-    </div>
-  </div>
-</div>
+                </div>
+            </div>
+        </div>
 
-<!-- ══════════════════════════════════════════════════════════════
-     S3 — BUILT-INS
-══════════════════════════════════════════════════════════════ -->
-<div class="section" id="s3">
-  <div class="section-header">
-    <span class="section-num">03</span>
-    <div>
-      <h2>Built-ins Arsenal</h2>
-      <div class="section-desc">Standard library tools that save lines and time in interviews</div>
-    </div>
-  </div>
+        <!-- ══════════════════════════════════════════════════════════════
+             S3 — BUILT-INS
+        ══════════════════════════════════════════════════════════════ -->
+        <div class="section" id="s3">
+            <div class="section-header">
+                <span class="section-num">03</span>
+                <div>
+                    <h2>Built-ins Arsenal</h2>
+                    <div class="section-desc">Standard library tools that save lines and time in interviews</div>
+                </div>
+            </div>
 
-  <div class="subsection">
-    <h3>Sorting with key= <span class="tag tag-core">CORE</span></h3>
-    <div class="code-block">
-      <div class="code-header"><div class="code-dots"><div class="code-dot d1"></div><div class="code-dot d2"></div><div class="code-dot d3"></div></div><span class="code-lang">python</span><span class="code-label">sorted() and .sort() — custom keys</span></div>
-<pre><span class="cm"># Sort strings by length</span>
+            <div class="subsection">
+                <h3>Sorting with key= <span class="tag tag-core">CORE</span></h3>
+                <div class="code-block">
+                    <div class="code-header"><div class="code-dots"><div class="code-dot d1"></div><div class="code-dot d2"></div><div class="code-dot d3"></div></div><span class="code-lang">python</span><span class="code-label">sorted() and .sort() — custom keys</span></div>
+                    <pre><span class="cm"># Sort strings by length</span>
 <span class="bi">sorted</span>([<span class="st">"banana"</span>, <span class="st">"apple"</span>, <span class="st">"fig"</span>], <span class="var">key</span>=<span class="bi">len</span>)
 <span class="cm"># ['fig', 'apple', 'banana']</span>
 
@@ -1004,14 +1616,14 @@ code {
         <span class="var">key</span> = <span class="bi">tuple</span>(<span class="bi">sorted</span>(<span class="var">s</span>))   <span class="cm"># tuples are hashable, lists aren't</span>
         <span class="var">groups</span>[<span class="var">key</span>].<span class="fn">append</span>(<span class="var">s</span>)
     <span class="kw">return</span> <span class="bi">list</span>(<span class="var">groups</span>.<span class="fn">values</span>())</pre>
-    </div>
-  </div>
+                </div>
+            </div>
 
-  <div class="subsection">
-    <h3>bisect — Binary Search Built-in <span class="tag tag-builtin">BUILT-IN</span></h3>
-    <div class="code-block">
-      <div class="code-header"><div class="code-dots"><div class="code-dot d1"></div><div class="code-dot d2"></div><div class="code-dot d3"></div></div><span class="code-lang">python</span><span class="code-label">bisect — O(log n) on sorted lists</span></div>
-<pre><span class="kw">import</span> <span class="var">bisect</span>
+            <div class="subsection">
+                <h3>bisect — Binary Search Built-in <span class="tag tag-builtin">BUILT-IN</span></h3>
+                <div class="code-block">
+                    <div class="code-header"><div class="code-dots"><div class="code-dot d1"></div><div class="code-dot d2"></div><div class="code-dot d3"></div></div><span class="code-lang">python</span><span class="code-label">bisect — O(log n) on sorted lists</span></div>
+                    <pre><span class="kw">import</span> <span class="var">bisect</span>
 
 <span class="var">arr</span> = [<span class="nm">1</span>, <span class="nm">3</span>, <span class="nm">5</span>, <span class="nm">7</span>, <span class="nm">9</span>]
 
@@ -1029,14 +1641,14 @@ code {
 
 <span class="cm"># Count elements less than target</span>
 <span class="var">bisect</span>.<span class="fn">bisect_left</span>(<span class="var">arr</span>, <span class="var">target</span>)  <span class="cm"># = number of elements < target</span></pre>
-    </div>
-  </div>
+                </div>
+            </div>
 
-  <div class="subsection">
-    <h3>functools — lru_cache for DP <span class="tag tag-pattern">PATTERN</span></h3>
-    <div class="code-block">
-      <div class="code-header"><div class="code-dots"><div class="code-dot d1"></div><div class="code-dot d2"></div><div class="code-dot d3"></div></div><span class="code-lang">python</span><span class="code-label">lru_cache — memoisation decorator</span></div>
-<pre><span class="kw">from</span> <span class="var">functools</span> <span class="kw">import</span> <span class="fn">lru_cache</span>
+            <div class="subsection">
+                <h3>functools — lru_cache for DP <span class="tag tag-pattern">PATTERN</span></h3>
+                <div class="code-block">
+                    <div class="code-header"><div class="code-dots"><div class="code-dot d1"></div><div class="code-dot d2"></div><div class="code-dot d3"></div></div><span class="code-lang">python</span><span class="code-label">lru_cache — memoisation decorator</span></div>
+                    <pre><span class="kw">from</span> <span class="var">functools</span> <span class="kw">import</span> <span class="fn">lru_cache</span>
 
 <span class="cm"># @lru_cache turns any recursive function into memoised DP</span>
 <span class="cm"># This is Python's equivalent of a mutable HashMap memo in Scala</span>
@@ -1058,36 +1670,36 @@ code {
 
 <span class="cm"># Clear cache between test cases (LC runs multiple cases)</span>
 <span class="fn">dp</span>.<span class="fn">cache_clear</span>()</pre>
-    </div>
-    <div class="callout callout-scala">
-      <div class="callout-icon">⚡</div>
-      <div class="callout-body">
-        <div class="callout-title">Scala equivalent</div>
-        <p class="callout-text">This is like Scala's <code>mutable.HashMap[State, Result]</code> memo map, but declarative. The decorator handles all the caching logic — you just write the pure recursive function. Much cleaner than manual memoisation.</p>
-      </div>
-    </div>
-  </div>
-</div>
+                </div>
+                <div class="callout callout-scala">
+                    <div class="callout-icon">⚡</div>
+                    <div class="callout-body">
+                        <div class="callout-title">Scala equivalent</div>
+                        <p class="callout-text">This is like Scala's <code>mutable.HashMap[State, Result]</code> memo map, but declarative. The decorator handles all the caching logic — you just write the pure recursive function. Much cleaner than manual memoisation.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-<!-- ══════════════════════════════════════════════════════════════
-     S4 — TWO POINTERS
-══════════════════════════════════════════════════════════════ -->
-<div class="section" id="s4">
-  <div class="section-header">
-    <span class="section-num">04</span>
-    <div>
-      <h2>Two Pointers</h2>
-      <div class="section-desc">Covers ~25% of array/string mediums. Master this first.</div>
-    </div>
-  </div>
+        <!-- ══════════════════════════════════════════════════════════════
+             S4 — TWO POINTERS
+        ══════════════════════════════════════════════════════════════ -->
+        <div class="section" id="s4">
+            <div class="section-header">
+                <span class="section-num">04</span>
+                <div>
+                    <h2>Two Pointers</h2>
+                    <div class="section-desc">Covers ~25% of array/string mediums. Master this first.</div>
+                </div>
+            </div>
 
-  <div class="subsection">
-    <h3>When to use it</h3>
-    <p>Two pointers means two indices moving through a structure. Use it when: the array is sorted, you're looking for a pair/triplet summing to a target, or you're comparing from both ends (palindrome check, container with most water).</p>
+            <div class="subsection">
+                <h3>When to use it</h3>
+                <p>Two pointers means two indices moving through a structure. Use it when: the array is sorted, you're looking for a pair/triplet summing to a target, or you're comparing from both ends (palindrome check, container with most water).</p>
 
-    <div class="code-block">
-      <div class="code-header"><div class="code-dots"><div class="code-dot d1"></div><div class="code-dot d2"></div><div class="code-dot d3"></div></div><span class="code-lang">python</span><span class="code-label">template: opposite-end pointers</span></div>
-<pre><span class="kw">def</span> <span class="fn">two_pointer_template</span>(<span class="var">arr</span>):
+                <div class="code-block">
+                    <div class="code-header"><div class="code-dots"><div class="code-dot d1"></div><div class="code-dot d2"></div><div class="code-dot d3"></div></div><span class="code-lang">python</span><span class="code-label">template: opposite-end pointers</span></div>
+                    <pre><span class="kw">def</span> <span class="fn">two_pointer_template</span>(<span class="var">arr</span>):
     <span class="var">left</span>, <span class="var">right</span> = <span class="nm">0</span>, <span class="bi">len</span>(<span class="var">arr</span>) - <span class="nm">1</span>
     <span class="kw">while</span> <span class="var">left</span> < <span class="var">right</span>:
         <span class="cm"># current = some function of arr[left] and arr[right]</span>
@@ -1124,31 +1736,31 @@ code {
         <span class="var">fast</span> = <span class="var">fast</span>.<span class="var">next</span>.<span class="var">next</span>
         <span class="kw">if</span> <span class="var">slow</span> <span class="kw">is</span> <span class="var">fast</span>: <span class="kw">return</span> <span class="kw">True</span>
     <span class="kw">return</span> <span class="kw">False</span></pre>
-    </div>
-    <div class="complexity">
-      <div class="complexity-item"><span class="complexity-label">Time</span><span class="complexity-val">O(n)</span></div>
-      <div class="complexity-item"><span class="complexity-label">Space</span><span class="complexity-val">O(1)</span></div>
-    </div>
-  </div>
-</div>
+                </div>
+                <div class="complexity">
+                    <div class="complexity-item"><span class="complexity-label">Time</span><span class="complexity-val">O(n)</span></div>
+                    <div class="complexity-item"><span class="complexity-label">Space</span><span class="complexity-val">O(1)</span></div>
+                </div>
+            </div>
+        </div>
 
-<!-- ══════════════════════════════════════════════════════════════
-     S5 — SLIDING WINDOW
-══════════════════════════════════════════════════════════════ -->
-<div class="section" id="s5">
-  <div class="section-header">
-    <span class="section-num">05</span>
-    <div>
-      <h2>Sliding Window</h2>
-      <div class="section-desc">Subarray / substring problems. Expand right, shrink left.</div>
-    </div>
-  </div>
+        <!-- ══════════════════════════════════════════════════════════════
+             S5 — SLIDING WINDOW
+        ══════════════════════════════════════════════════════════════ -->
+        <div class="section" id="s5">
+            <div class="section-header">
+                <span class="section-num">05</span>
+                <div>
+                    <h2>Sliding Window</h2>
+                    <div class="section-desc">Subarray / substring problems. Expand right, shrink left.</div>
+                </div>
+            </div>
 
-  <div class="subsection">
-    <h3>Variable-size window template <span class="tag tag-pattern">PATTERN</span></h3>
-    <div class="code-block">
-      <div class="code-header"><div class="code-dots"><div class="code-dot d1"></div><div class="code-dot d2"></div><div class="code-dot d3"></div></div><span class="code-lang">python</span><span class="code-label">template + longest substring without repeating</span></div>
-<pre><span class="cm"># Template: find max-length window satisfying a constraint</span>
+            <div class="subsection">
+                <h3>Variable-size window template <span class="tag tag-pattern">PATTERN</span></h3>
+                <div class="code-block">
+                    <div class="code-header"><div class="code-dots"><div class="code-dot d1"></div><div class="code-dot d2"></div><div class="code-dot d3"></div></div><span class="code-lang">python</span><span class="code-label">template + longest substring without repeating</span></div>
+                    <pre><span class="cm"># Template: find max-length window satisfying a constraint</span>
 <span class="kw">def</span> <span class="fn">sliding_window</span>(<span class="var">s</span>):
     <span class="var">left</span> = <span class="nm">0</span>
     <span class="var">state</span> = {}    <span class="cm"># track window contents</span>
@@ -1176,31 +1788,31 @@ code {
         <span class="var">window</span> += <span class="var">nums</span>[<span class="var">i</span>] - <span class="var">nums</span>[<span class="var">i</span><span class="op">-</span><span class="var">k</span>]   <span class="cm"># slide: add right, remove left</span>
         <span class="var">result</span> = <span class="bi">max</span>(<span class="var">result</span>, <span class="var">window</span>)
     <span class="kw">return</span> <span class="var">result</span></pre>
-    </div>
-    <div class="complexity">
-      <div class="complexity-item"><span class="complexity-label">Time</span><span class="complexity-val">O(n)</span></div>
-      <div class="complexity-item"><span class="complexity-label">Space</span><span class="complexity-val">O(k)</span></div>
-    </div>
-  </div>
-</div>
+                </div>
+                <div class="complexity">
+                    <div class="complexity-item"><span class="complexity-label">Time</span><span class="complexity-val">O(n)</span></div>
+                    <div class="complexity-item"><span class="complexity-label">Space</span><span class="complexity-val">O(k)</span></div>
+                </div>
+            </div>
+        </div>
 
-<!-- ══════════════════════════════════════════════════════════════
-     S6 — BINARY SEARCH
-══════════════════════════════════════════════════════════════ -->
-<div class="section" id="s6">
-  <div class="section-header">
-    <span class="section-num">06</span>
-    <div>
-      <h2>Binary Search</h2>
-      <div class="section-desc">Know both templates. Then learn "search on answer".</div>
-    </div>
-  </div>
+        <!-- ══════════════════════════════════════════════════════════════
+             S6 — BINARY SEARCH
+        ══════════════════════════════════════════════════════════════ -->
+        <div class="section" id="s6">
+            <div class="section-header">
+                <span class="section-num">06</span>
+                <div>
+                    <h2>Binary Search</h2>
+                    <div class="section-desc">Know both templates. Then learn "search on answer".</div>
+                </div>
+            </div>
 
-  <div class="subsection">
-    <h3>The two templates <span class="tag tag-pattern">PATTERN</span></h3>
-    <div class="code-block">
-      <div class="code-header"><div class="code-dots"><div class="code-dot d1"></div><div class="code-dot d2"></div><div class="code-dot d3"></div></div><span class="code-lang">python</span><span class="code-label">binary search — exact match + left boundary</span></div>
-<pre><span class="cm"># Template 1: find exact target</span>
+            <div class="subsection">
+                <h3>The two templates <span class="tag tag-pattern">PATTERN</span></h3>
+                <div class="code-block">
+                    <div class="code-header"><div class="code-dots"><div class="code-dot d1"></div><div class="code-dot d2"></div><div class="code-dot d3"></div></div><span class="code-lang">python</span><span class="code-label">binary search — exact match + left boundary</span></div>
+                    <pre><span class="cm"># Template 1: find exact target</span>
 <span class="kw">def</span> <span class="fn">binary_search</span>(<span class="var">nums</span>, <span class="var">target</span>):
     <span class="var">lo</span>, <span class="var">hi</span> = <span class="nm">0</span>, <span class="bi">len</span>(<span class="var">nums</span>) - <span class="nm">1</span>
     <span class="kw">while</span> <span class="var">lo</span> <= <span class="var">hi</span>:
@@ -1240,31 +1852,31 @@ code {
         <span class="kw">if</span> <span class="fn">feasible</span>(<span class="var">mid</span>): <span class="var">hi</span> = <span class="var">mid</span>
         <span class="kw">else</span>:             <span class="var">lo</span> = <span class="var">mid</span> + <span class="nm">1</span>
     <span class="kw">return</span> <span class="var">lo</span></pre>
-    </div>
-    <div class="complexity">
-      <div class="complexity-item"><span class="complexity-label">Time</span><span class="complexity-val">O(log n)</span></div>
-      <div class="complexity-item"><span class="complexity-label">Space</span><span class="complexity-val">O(1)</span></div>
-    </div>
-  </div>
-</div>
+                </div>
+                <div class="complexity">
+                    <div class="complexity-item"><span class="complexity-label">Time</span><span class="complexity-val">O(log n)</span></div>
+                    <div class="complexity-item"><span class="complexity-label">Space</span><span class="complexity-val">O(1)</span></div>
+                </div>
+            </div>
+        </div>
 
-<!-- ══════════════════════════════════════════════════════════════
-     S7 — BFS / DFS
-══════════════════════════════════════════════════════════════ -->
-<div class="section" id="s7">
-  <div class="section-header">
-    <span class="section-num">07</span>
-    <div>
-      <h2>BFS / DFS</h2>
-      <div class="section-desc">Trees, graphs, islands, shortest paths. Core of every medium graph problem.</div>
-    </div>
-  </div>
+        <!-- ══════════════════════════════════════════════════════════════
+             S7 — BFS / DFS
+        ══════════════════════════════════════════════════════════════ -->
+        <div class="section" id="s7">
+            <div class="section-header">
+                <span class="section-num">07</span>
+                <div>
+                    <h2>BFS / DFS</h2>
+                    <div class="section-desc">Trees, graphs, islands, shortest paths. Core of every medium graph problem.</div>
+                </div>
+            </div>
 
-  <div class="subsection">
-    <h3>BFS — shortest path, level order <span class="tag tag-pattern">PATTERN</span></h3>
-    <div class="code-block">
-      <div class="code-header"><div class="code-dots"><div class="code-dot d1"></div><div class="code-dot d2"></div><div class="code-dot d3"></div></div><span class="code-lang">python</span><span class="code-label">BFS template — graph and grid</span></div>
-<pre><span class="kw">from</span> <span class="var">collections</span> <span class="kw">import</span> <span class="cls">deque</span>
+            <div class="subsection">
+                <h3>BFS — shortest path, level order <span class="tag tag-pattern">PATTERN</span></h3>
+                <div class="code-block">
+                    <div class="code-header"><div class="code-dots"><div class="code-dot d1"></div><div class="code-dot d2"></div><div class="code-dot d3"></div></div><span class="code-lang">python</span><span class="code-label">BFS template — graph and grid</span></div>
+                    <pre><span class="kw">from</span> <span class="var">collections</span> <span class="kw">import</span> <span class="cls">deque</span>
 
 <span class="cm"># Graph BFS</span>
 <span class="kw">def</span> <span class="fn">bfs</span>(<span class="var">graph</span>, <span class="var">start</span>):
@@ -1305,14 +1917,14 @@ code {
                <span class="kw">and</span> (<span class="var">nr</span>,<span class="var">nc</span>) <span class="kw">not in</span> <span class="var">visited</span> <span class="kw">and</span> <span class="var">grid</span>[<span class="var">nr</span>][<span class="var">nc</span>] != <span class="nm">0</span>:
                 <span class="var">visited</span>.<span class="fn">add</span>((<span class="var">nr</span>, <span class="var">nc</span>))
                 <span class="var">q</span>.<span class="fn">append</span>((<span class="var">nr</span>, <span class="var">nc</span>, <span class="var">dist</span>+<span class="nm">1</span>))</pre>
-    </div>
-  </div>
+                </div>
+            </div>
 
-  <div class="subsection">
-    <h3>DFS — recursive and iterative <span class="tag tag-pattern">PATTERN</span></h3>
-    <div class="code-block">
-      <div class="code-header"><div class="code-dots"><div class="code-dot d1"></div><div class="code-dot d2"></div><div class="code-dot d3"></div></div><span class="code-lang">python</span><span class="code-label">DFS — recursive tree + iterative graph</span></div>
-<pre><span class="cm"># Recursive DFS on tree</span>
+            <div class="subsection">
+                <h3>DFS — recursive and iterative <span class="tag tag-pattern">PATTERN</span></h3>
+                <div class="code-block">
+                    <div class="code-header"><div class="code-dots"><div class="code-dot d1"></div><div class="code-dot d2"></div><div class="code-dot d3"></div></div><span class="code-lang">python</span><span class="code-label">DFS — recursive tree + iterative graph</span></div>
+                    <pre><span class="cm"># Recursive DFS on tree</span>
 <span class="kw">def</span> <span class="fn">dfs_tree</span>(<span class="var">root</span>):
     <span class="kw">if not</span> <span class="var">root</span>: <span class="kw">return</span> <span class="nm">0</span>   <span class="cm"># base case</span>
     <span class="var">left</span>  = <span class="fn">dfs_tree</span>(<span class="var">root</span>.<span class="var">left</span>)
@@ -1347,34 +1959,34 @@ code {
         <span class="kw">for</span> <span class="var">nei</span> <span class="kw">in</span> <span class="var">graph</span>[<span class="var">node</span>]:
             <span class="kw">if</span> <span class="var">nei</span> <span class="kw">not in</span> <span class="var">visited</span>:
                 <span class="var">stack</span>.<span class="fn">append</span>(<span class="var">nei</span>)</pre>
-    </div>
-    <div class="callout callout-warn">
-      <div class="callout-icon">⚠️</div>
-      <div class="callout-body">
-        <div class="callout-title">Python recursion limit</div>
-        <p class="callout-text">Python's default recursion limit is ~1000 frames. For deep graphs or large trees, use iterative DFS with an explicit stack, or add <code>import sys; sys.setrecursionlimit(10000)</code> at the top. In interviews, mention you're aware of this.</p>
-      </div>
-    </div>
-  </div>
-</div>
+                </div>
+                <div class="callout callout-warn">
+                    <div class="callout-icon">⚠️</div>
+                    <div class="callout-body">
+                        <div class="callout-title">Python recursion limit</div>
+                        <p class="callout-text">Python's default recursion limit is ~1000 frames. For deep graphs or large trees, use iterative DFS with an explicit stack, or add <code>import sys; sys.setrecursionlimit(10000)</code> at the top. In interviews, mention you're aware of this.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-<!-- ══════════════════════════════════════════════════════════════
-     S8 — DYNAMIC PROGRAMMING
-══════════════════════════════════════════════════════════════ -->
-<div class="section" id="s8">
-  <div class="section-header">
-    <span class="section-num">08</span>
-    <div>
-      <h2>Dynamic Programming</h2>
-      <div class="section-desc">Top-down with lru_cache first. Bottom-up when you need space optimisation.</div>
-    </div>
-  </div>
+        <!-- ══════════════════════════════════════════════════════════════
+             S8 — DYNAMIC PROGRAMMING
+        ══════════════════════════════════════════════════════════════ -->
+        <div class="section" id="s8">
+            <div class="section-header">
+                <span class="section-num">08</span>
+                <div>
+                    <h2>Dynamic Programming</h2>
+                    <div class="section-desc">Top-down with lru_cache first. Bottom-up when you need space optimisation.</div>
+                </div>
+            </div>
 
-  <div class="subsection">
-    <h3>Top-down (Memoisation) <span class="tag tag-pattern">PATTERN</span></h3>
-    <div class="code-block">
-      <div class="code-header"><div class="code-dots"><div class="code-dot d1"></div><div class="code-dot d2"></div><div class="code-dot d3"></div></div><span class="code-lang">python</span><span class="code-label">top-down DP — coin change + knapsack</span></div>
-<pre><span class="kw">from</span> <span class="var">functools</span> <span class="kw">import</span> <span class="fn">lru_cache</span>
+            <div class="subsection">
+                <h3>Top-down (Memoisation) <span class="tag tag-pattern">PATTERN</span></h3>
+                <div class="code-block">
+                    <div class="code-header"><div class="code-dots"><div class="code-dot d1"></div><div class="code-dot d2"></div><div class="code-dot d3"></div></div><span class="code-lang">python</span><span class="code-label">top-down DP — coin change + knapsack</span></div>
+                    <pre><span class="kw">from</span> <span class="var">functools</span> <span class="kw">import</span> <span class="fn">lru_cache</span>
 
 <span class="cm"># Coin Change — minimum coins to make amount</span>
 <span class="kw">def</span> <span class="fn">coin_change</span>(<span class="var">coins</span>, <span class="var">amount</span>):
@@ -1395,14 +2007,14 @@ code {
             <span class="kw">return</span> <span class="nm">1</span> + <span class="fn">dp</span>(<span class="var">i</span>+<span class="nm">1</span>, <span class="var">j</span>+<span class="nm">1</span>)
         <span class="kw">return</span> <span class="bi">max</span>(<span class="fn">dp</span>(<span class="var">i</span>+<span class="nm">1</span>, <span class="var">j</span>), <span class="fn">dp</span>(<span class="var">i</span>, <span class="var">j</span>+<span class="nm">1</span>))
     <span class="kw">return</span> <span class="fn">dp</span>(<span class="nm">0</span>, <span class="nm">0</span>)</pre>
-    </div>
-  </div>
+                </div>
+            </div>
 
-  <div class="subsection">
-    <h3>Bottom-up (Tabulation) <span class="tag tag-pattern">PATTERN</span></h3>
-    <div class="code-block">
-      <div class="code-header"><div class="code-dots"><div class="code-dot d1"></div><div class="code-dot d2"></div><div class="code-dot d3"></div></div><span class="code-lang">python</span><span class="code-label">bottom-up DP — 1D and 2D table</span></div>
-<pre><span class="cm"># Climbing Stairs — 1D DP</span>
+            <div class="subsection">
+                <h3>Bottom-up (Tabulation) <span class="tag tag-pattern">PATTERN</span></h3>
+                <div class="code-block">
+                    <div class="code-header"><div class="code-dots"><div class="code-dot d1"></div><div class="code-dot d2"></div><div class="code-dot d3"></div></div><span class="code-lang">python</span><span class="code-label">bottom-up DP — 1D and 2D table</span></div>
+                    <pre><span class="cm"># Climbing Stairs — 1D DP</span>
 <span class="kw">def</span> <span class="fn">climb_stairs</span>(<span class="var">n</span>):
     <span class="kw">if</span> <span class="var">n</span> <= <span class="nm">2</span>: <span class="kw">return</span> <span class="var">n</span>
     <span class="var">dp</span> = [<span class="nm">0</span>] <span class="op">*</span> (<span class="var">n</span> + <span class="nm">1</span>)
@@ -1425,34 +2037,34 @@ code {
         <span class="kw">for</span> <span class="var">c</span> <span class="kw">in</span> <span class="bi">range</span>(<span class="nm">1</span>, <span class="var">n</span>):
             <span class="var">dp</span>[<span class="var">r</span>][<span class="var">c</span>] = <span class="var">dp</span>[<span class="var">r</span>-<span class="nm">1</span>][<span class="var">c</span>] + <span class="var">dp</span>[<span class="var">r</span>][<span class="var">c</span>-<span class="nm">1</span>]
     <span class="kw">return</span> <span class="var">dp</span>[<span class="var">m</span>-<span class="nm">1</span>][<span class="var">n</span>-<span class="nm">1</span>]</pre>
-    </div>
-    <div class="callout callout-tip">
-      <div class="callout-icon">💡</div>
-      <div class="callout-body">
-        <div class="callout-title">Strategy: top-down first, optimise later</div>
-        <p class="callout-text">Always implement top-down with <code>@lru_cache</code> first — it's faster to write and easier to reason about. Only convert to bottom-up if the problem requires O(1) space or you're hitting recursion limits. The examiner sees you get to correct first, then optimise.</p>
-      </div>
-    </div>
-  </div>
-</div>
+                </div>
+                <div class="callout callout-tip">
+                    <div class="callout-icon">💡</div>
+                    <div class="callout-body">
+                        <div class="callout-title">Strategy: top-down first, optimise later</div>
+                        <p class="callout-text">Always implement top-down with <code>@lru_cache</code> first — it's faster to write and easier to reason about. Only convert to bottom-up if the problem requires O(1) space or you're hitting recursion limits. The examiner sees you get to correct first, then optimise.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-<!-- ══════════════════════════════════════════════════════════════
-     S9 — BACKTRACKING
-══════════════════════════════════════════════════════════════ -->
-<div class="section" id="s9">
-  <div class="section-header">
-    <span class="section-num">09</span>
-    <div>
-      <h2>Backtracking</h2>
-      <div class="section-desc">Permutations, combinations, subsets, N-queens. One template rules them all.</div>
-    </div>
-  </div>
+        <!-- ══════════════════════════════════════════════════════════════
+             S9 — BACKTRACKING
+        ══════════════════════════════════════════════════════════════ -->
+        <div class="section" id="s9">
+            <div class="section-header">
+                <span class="section-num">09</span>
+                <div>
+                    <h2>Backtracking</h2>
+                    <div class="section-desc">Permutations, combinations, subsets, N-queens. One template rules them all.</div>
+                </div>
+            </div>
 
-  <div class="subsection">
-    <h3>The universal template <span class="tag tag-pattern">PATTERN</span></h3>
-    <div class="code-block">
-      <div class="code-header"><div class="code-dots"><div class="code-dot d1"></div><div class="code-dot d2"></div><div class="code-dot d3"></div></div><span class="code-lang">python</span><span class="code-label">backtracking — subsets, combinations, permutations</span></div>
-<pre><span class="cm"># Subsets — choose or skip each element</span>
+            <div class="subsection">
+                <h3>The universal template <span class="tag tag-pattern">PATTERN</span></h3>
+                <div class="code-block">
+                    <div class="code-header"><div class="code-dots"><div class="code-dot d1"></div><div class="code-dot d2"></div><div class="code-dot d3"></div></div><span class="code-lang">python</span><span class="code-label">backtracking — subsets, combinations, permutations</span></div>
+                    <pre><span class="cm"># Subsets — choose or skip each element</span>
 <span class="kw">def</span> <span class="fn">subsets</span>(<span class="var">nums</span>):
     <span class="var">result</span> = []
     <span class="kw">def</span> <span class="fn">backtrack</span>(<span class="var">start</span>, <span class="var">current</span>):
@@ -1492,34 +2104,34 @@ code {
             <span class="var">current</span>.<span class="fn">pop</span>()
     <span class="fn">backtrack</span>(<span class="nm">0</span>, [], <span class="var">target</span>)
     <span class="kw">return</span> <span class="var">result</span></pre>
-    </div>
-    <div class="callout callout-tip">
-      <div class="callout-icon">💡</div>
-      <div class="callout-body">
-        <div class="callout-title">The three-step backtracking mantra</div>
-        <p class="callout-text"><strong>Choose → Explore → Undo.</strong> Always append/add before recursing, always pop/remove after. The undo step is what makes it backtracking instead of just DFS. Sort input first to enable pruning with an early <code>break</code>.</p>
-      </div>
-    </div>
-  </div>
-</div>
+                </div>
+                <div class="callout callout-tip">
+                    <div class="callout-icon">💡</div>
+                    <div class="callout-body">
+                        <div class="callout-title">The three-step backtracking mantra</div>
+                        <p class="callout-text"><strong>Choose → Explore → Undo.</strong> Always append/add before recursing, always pop/remove after. The undo step is what makes it backtracking instead of just DFS. Sort input first to enable pruning with an early <code>break</code>.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-<!-- ══════════════════════════════════════════════════════════════
-     S10 — HEAP
-══════════════════════════════════════════════════════════════ -->
-<div class="section" id="s10">
-  <div class="section-header">
-    <span class="section-num">10</span>
-    <div>
-      <h2>Heap / Priority Queue</h2>
-      <div class="section-desc">Top-K, scheduling, Dijkstra. Always heapq.</div>
-    </div>
-  </div>
+        <!-- ══════════════════════════════════════════════════════════════
+             S10 — HEAP
+        ══════════════════════════════════════════════════════════════ -->
+        <div class="section" id="s10">
+            <div class="section-header">
+                <span class="section-num">10</span>
+                <div>
+                    <h2>Heap / Priority Queue</h2>
+                    <div class="section-desc">Top-K, scheduling, Dijkstra. Always heapq.</div>
+                </div>
+            </div>
 
-  <div class="subsection">
-    <h3>Key patterns <span class="tag tag-pattern">PATTERN</span></h3>
-    <div class="code-block">
-      <div class="code-header"><div class="code-dots"><div class="code-dot d1"></div><div class="code-dot d2"></div><div class="code-dot d3"></div></div><span class="code-lang">python</span><span class="code-label">heap — top-k + Dijkstra</span></div>
-<pre><span class="kw">import</span> <span class="var">heapq</span>
+            <div class="subsection">
+                <h3>Key patterns <span class="tag tag-pattern">PATTERN</span></h3>
+                <div class="code-block">
+                    <div class="code-header"><div class="code-dots"><div class="code-dot d1"></div><div class="code-dot d2"></div><div class="code-dot d3"></div></div><span class="code-lang">python</span><span class="code-label">heap — top-k + Dijkstra</span></div>
+                    <pre><span class="kw">import</span> <span class="var">heapq</span>
 
 <span class="cm"># Top-K frequent elements</span>
 <span class="kw">def</span> <span class="fn">top_k_frequent</span>(<span class="var">nums</span>, <span class="var">k</span>):
@@ -1551,27 +2163,27 @@ code {
                 <span class="var">dist</span>[<span class="var">v</span>] = <span class="var">nd</span>
                 <span class="var">heapq</span>.<span class="fn">heappush</span>(<span class="var">h</span>, (<span class="var">nd</span>, <span class="var">v</span>))
     <span class="kw">return</span> <span class="var">dist</span></pre>
-    </div>
-  </div>
-</div>
+                </div>
+            </div>
+        </div>
 
-<!-- ══════════════════════════════════════════════════════════════
-     S11 — LINKED LISTS
-══════════════════════════════════════════════════════════════ -->
-<div class="section" id="s11">
-  <div class="section-header">
-    <span class="section-num">11</span>
-    <div>
-      <h2>Linked Lists</h2>
-      <div class="section-desc">Dummy head, fast/slow pointer, reversal in-place.</div>
-    </div>
-  </div>
+        <!-- ══════════════════════════════════════════════════════════════
+             S11 — LINKED LISTS
+        ══════════════════════════════════════════════════════════════ -->
+        <div class="section" id="s11">
+            <div class="section-header">
+                <span class="section-num">11</span>
+                <div>
+                    <h2>Linked Lists</h2>
+                    <div class="section-desc">Dummy head, fast/slow pointer, reversal in-place.</div>
+                </div>
+            </div>
 
-  <div class="subsection">
-    <h3>Core patterns <span class="tag tag-pattern">PATTERN</span></h3>
-    <div class="code-block">
-      <div class="code-header"><div class="code-dots"><div class="code-dot d1"></div><div class="code-dot d2"></div><div class="code-dot d3"></div></div><span class="code-lang">python</span><span class="code-label">linked list — node definition + reversal + merge</span></div>
-<pre><span class="cm"># LeetCode provides this — you don't define it</span>
+            <div class="subsection">
+                <h3>Core patterns <span class="tag tag-pattern">PATTERN</span></h3>
+                <div class="code-block">
+                    <div class="code-header"><div class="code-dots"><div class="code-dot d1"></div><div class="code-dot d2"></div><div class="code-dot d3"></div></div><span class="code-lang">python</span><span class="code-label">linked list — node definition + reversal + merge</span></div>
+                    <pre><span class="cm"># LeetCode provides this — you don't define it</span>
 <span class="kw">class</span> <span class="cls">ListNode</span>:
     <span class="kw">def</span> <span class="fn">__init__</span>(<span class="var">self</span>, <span class="var">val</span>=<span class="nm">0</span>, <span class="var">next</span>=<span class="kw">None</span>):
         <span class="var">self</span>.<span class="var">val</span>  = <span class="var">val</span>
@@ -1607,27 +2219,27 @@ code {
         <span class="var">slow</span> = <span class="var">slow</span>.<span class="var">next</span>
         <span class="var">fast</span> = <span class="var">fast</span>.<span class="var">next</span>.<span class="var">next</span>
     <span class="kw">return</span> <span class="var">slow</span>   <span class="cm"># slow is at middle</span></pre>
-    </div>
-  </div>
-</div>
+                </div>
+            </div>
+        </div>
 
-<!-- ══════════════════════════════════════════════════════════════
-     S12 — TREES & GRAPHS
-══════════════════════════════════════════════════════════════ -->
-<div class="section" id="s12">
-  <div class="section-header">
-    <span class="section-num">12</span>
-    <div>
-      <h2>Trees & Graphs</h2>
-      <div class="section-desc">BST properties, Union-Find, topological sort.</div>
-    </div>
-  </div>
+        <!-- ══════════════════════════════════════════════════════════════
+             S12 — TREES & GRAPHS
+        ══════════════════════════════════════════════════════════════ -->
+        <div class="section" id="s12">
+            <div class="section-header">
+                <span class="section-num">12</span>
+                <div>
+                    <h2>Trees & Graphs</h2>
+                    <div class="section-desc">BST properties, Union-Find, topological sort.</div>
+                </div>
+            </div>
 
-  <div class="subsection">
-    <h3>BST operations + Union-Find <span class="tag tag-pattern">PATTERN</span></h3>
-    <div class="code-block">
-      <div class="code-header"><div class="code-dots"><div class="code-dot d1"></div><div class="code-dot d2"></div><div class="code-dot d3"></div></div><span class="code-lang">python</span><span class="code-label">BST validate + Union-Find (DSU)</span></div>
-<pre><span class="cm"># Validate BST — pass bounds down recursively</span>
+            <div class="subsection">
+                <h3>BST operations + Union-Find <span class="tag tag-pattern">PATTERN</span></h3>
+                <div class="code-block">
+                    <div class="code-header"><div class="code-dots"><div class="code-dot d1"></div><div class="code-dot d2"></div><div class="code-dot d3"></div></div><span class="code-lang">python</span><span class="code-label">BST validate + Union-Find (DSU)</span></div>
+                    <pre><span class="cm"># Validate BST — pass bounds down recursively</span>
 <span class="kw">def</span> <span class="fn">is_valid_bst</span>(<span class="var">root</span>, <span class="var">lo</span>=<span class="bi">float</span>(<span class="st">'-inf'</span>), <span class="var">hi</span>=<span class="bi">float</span>(<span class="st">'inf'</span>)):
     <span class="kw">if not</span> <span class="var">root</span>: <span class="kw">return</span> <span class="kw">True</span>
     <span class="kw">if not</span> (<span class="var">lo</span> < <span class="var">root</span>.<span class="var">val</span> < <span class="var">hi</span>): <span class="kw">return</span> <span class="kw">False</span>
@@ -1669,27 +2281,27 @@ code {
             <span class="var">in_deg</span>[<span class="var">v</span>] -= <span class="nm">1</span>
             <span class="kw">if</span> <span class="var">in_deg</span>[<span class="var">v</span>] == <span class="nm">0</span>: <span class="var">q</span>.<span class="fn">append</span>(<span class="var">v</span>)
     <span class="kw">return</span> <span class="var">order</span> <span class="kw">if</span> <span class="bi">len</span>(<span class="var">order</span>) == <span class="var">n</span> <span class="kw">else</span> []  <span class="cm"># empty = cycle exists</span></pre>
-    </div>
-  </div>
-</div>
+                </div>
+            </div>
+        </div>
 
-<!-- ══════════════════════════════════════════════════════════════
-     S13 — TRIES
-══════════════════════════════════════════════════════════════ -->
-<div class="section" id="s13">
-  <div class="section-header">
-    <span class="section-num">13</span>
-    <div>
-      <h2>Tries</h2>
-      <div class="section-desc">Word search, autocomplete, prefix matching.</div>
-    </div>
-  </div>
+        <!-- ══════════════════════════════════════════════════════════════
+             S13 — TRIES
+        ══════════════════════════════════════════════════════════════ -->
+        <div class="section" id="s13">
+            <div class="section-header">
+                <span class="section-num">13</span>
+                <div>
+                    <h2>Tries</h2>
+                    <div class="section-desc">Word search, autocomplete, prefix matching.</div>
+                </div>
+            </div>
 
-  <div class="subsection">
-    <h3>Clean Python Trie implementation <span class="tag tag-pattern">PATTERN</span></h3>
-    <div class="code-block">
-      <div class="code-header"><div class="code-dots"><div class="code-dot d1"></div><div class="code-dot d2"></div><div class="code-dot d3"></div></div><span class="code-lang">python</span><span class="code-label">Trie — insert, search, startsWith</span></div>
-<pre><span class="kw">class</span> <span class="cls">TrieNode</span>:
+            <div class="subsection">
+                <h3>Clean Python Trie implementation <span class="tag tag-pattern">PATTERN</span></h3>
+                <div class="code-block">
+                    <div class="code-header"><div class="code-dots"><div class="code-dot d1"></div><div class="code-dot d2"></div><div class="code-dot d3"></div></div><span class="code-lang">python</span><span class="code-label">Trie — insert, search, startsWith</span></div>
+                    <pre><span class="kw">class</span> <span class="cls">TrieNode</span>:
     <span class="kw">def</span> <span class="fn">__init__</span>(<span class="var">self</span>):
         <span class="var">self</span>.<span class="var">children</span> = {}    <span class="cm"># char → TrieNode</span>
         <span class="var">self</span>.<span class="var">is_end</span>  = <span class="kw">False</span>
@@ -1724,27 +2336,27 @@ code {
 <span class="kw">def</span> <span class="fn">make_trie</span>():
     <span class="kw">from</span> <span class="var">collections</span> <span class="kw">import</span> <span class="cls">defaultdict</span>
     <span class="kw">return</span> <span class="cls">defaultdict</span>(<span class="fn">make_trie</span>)   <span class="cm"># recursive default factory</span></pre>
-    </div>
-  </div>
-</div>
+                </div>
+            </div>
+        </div>
 
-<!-- ══════════════════════════════════════════════════════════════
-     S14 — BIT MANIPULATION
-══════════════════════════════════════════════════════════════ -->
-<div class="section" id="s14">
-  <div class="section-header">
-    <span class="section-num">14</span>
-    <div>
-      <h2>Bit Manipulation</h2>
-      <div class="section-desc">A small set of tricks. Master these, ignore the rest.</div>
-    </div>
-  </div>
+        <!-- ══════════════════════════════════════════════════════════════
+             S14 — BIT MANIPULATION
+        ══════════════════════════════════════════════════════════════ -->
+        <div class="section" id="s14">
+            <div class="section-header">
+                <span class="section-num">14</span>
+                <div>
+                    <h2>Bit Manipulation</h2>
+                    <div class="section-desc">A small set of tricks. Master these, ignore the rest.</div>
+                </div>
+            </div>
 
-  <div class="subsection">
-    <h3>The essential tricks <span class="tag tag-core">CORE</span></h3>
-    <div class="code-block">
-      <div class="code-header"><div class="code-dots"><div class="code-dot d1"></div><div class="code-dot d2"></div><div class="code-dot d3"></div></div><span class="code-lang">python</span><span class="code-label">bit tricks</span></div>
-<pre><span class="cm"># Core operators</span>
+            <div class="subsection">
+                <h3>The essential tricks <span class="tag tag-core">CORE</span></h3>
+                <div class="code-block">
+                    <div class="code-header"><div class="code-dots"><div class="code-dot d1"></div><div class="code-dot d2"></div><div class="code-dot d3"></div></div><span class="code-lang">python</span><span class="code-label">bit tricks</span></div>
+                    <pre><span class="cm"># Core operators</span>
 <span class="nm">5</span> <span class="op">&</span>  <span class="nm">3</span>   <span class="cm"># 1   AND</span>
 <span class="nm">5</span> <span class="op">|</span>  <span class="nm">3</span>   <span class="cm"># 7   OR</span>
 <span class="nm">5</span> <span class="op">^</span>  <span class="nm">3</span>   <span class="cm"># 6   XOR</span>
@@ -1776,27 +2388,27 @@ code {
 <span class="kw">from</span> <span class="var">functools</span> <span class="kw">import</span> <span class="fn">reduce</span>
 <span class="kw">import</span> <span class="var">operator</span>
 <span class="fn">reduce</span>(<span class="var">operator</span>.<span class="fn">xor</span>, <span class="var">nums</span>)  <span class="cm"># pairs cancel → unique remains</span></pre>
-    </div>
-  </div>
-</div>
+                </div>
+            </div>
+        </div>
 
-<!-- ══════════════════════════════════════════════════════════════
-     S15 — INTERVALS
-══════════════════════════════════════════════════════════════ -->
-<div class="section" id="s15">
-  <div class="section-header">
-    <span class="section-num">15</span>
-    <div>
-      <h2>Intervals & Sorting</h2>
-      <div class="section-desc">Sort by start, merge overlaps, sweep line.</div>
-    </div>
-  </div>
+        <!-- ══════════════════════════════════════════════════════════════
+             S15 — INTERVALS
+        ══════════════════════════════════════════════════════════════ -->
+        <div class="section" id="s15">
+            <div class="section-header">
+                <span class="section-num">15</span>
+                <div>
+                    <h2>Intervals & Sorting</h2>
+                    <div class="section-desc">Sort by start, merge overlaps, sweep line.</div>
+                </div>
+            </div>
 
-  <div class="subsection">
-    <h3>Merge intervals + meeting rooms <span class="tag tag-pattern">PATTERN</span></h3>
-    <div class="code-block">
-      <div class="code-header"><div class="code-dots"><div class="code-dot d1"></div><div class="code-dot d2"></div><div class="code-dot d3"></div></div><span class="code-lang">python</span><span class="code-label">merge intervals + min meeting rooms</span></div>
-<pre><span class="cm"># Merge Intervals — sort by start, greedily extend</span>
+            <div class="subsection">
+                <h3>Merge intervals + meeting rooms <span class="tag tag-pattern">PATTERN</span></h3>
+                <div class="code-block">
+                    <div class="code-header"><div class="code-dots"><div class="code-dot d1"></div><div class="code-dot d2"></div><div class="code-dot d3"></div></div><span class="code-lang">python</span><span class="code-label">merge intervals + min meeting rooms</span></div>
+                    <pre><span class="cm"># Merge Intervals — sort by start, greedily extend</span>
 <span class="kw">def</span> <span class="fn">merge</span>(<span class="var">intervals</span>):
     <span class="var">intervals</span>.<span class="fn">sort</span>(<span class="var">key</span>=<span class="kw">lambda</span> <span class="var">x</span>: <span class="var">x</span>[<span class="nm">0</span>])
     <span class="var">merged</span> = [<span class="var">intervals</span>[<span class="nm">0</span>]]
@@ -1817,95 +2429,95 @@ code {
         <span class="kw">else</span>:           <span class="var">j</span> += <span class="nm">1</span>      <span class="cm"># reuse room (meeting ended)</span>
         <span class="var">peak</span> = <span class="bi">max</span>(<span class="var">peak</span>, <span class="var">rooms</span>)
     <span class="kw">return</span> <span class="var">peak</span></pre>
-    </div>
-  </div>
-</div>
+                </div>
+            </div>
+        </div>
 
-<!-- ══════════════════════════════════════════════════════════════
-     S16 — COMPLEXITY CHEATSHEET
-══════════════════════════════════════════════════════════════ -->
-<div class="section" id="s16">
-  <div class="section-header">
-    <span class="section-num">16</span>
-    <div>
-      <h2>Complexity Cheatsheet</h2>
-      <div class="section-desc">Know these before you write a line of code.</div>
-    </div>
-  </div>
+        <!-- ══════════════════════════════════════════════════════════════
+             S16 — COMPLEXITY CHEATSHEET
+        ══════════════════════════════════════════════════════════════ -->
+        <div class="section" id="s16">
+            <div class="section-header">
+                <span class="section-num">16</span>
+                <div>
+                    <h2>Complexity Cheatsheet</h2>
+                    <div class="section-desc">Know these before you write a line of code.</div>
+                </div>
+            </div>
 
-  <div class="subsection">
-    <h3>Data structure operations</h3>
-    <table class="cmp-table">
-      <tr><th>Operation</th><th>Time</th><th>Notes</th></tr>
-      <tr><td>list[i]</td><td>O(1)</td><td>Index access</td></tr>
-      <tr><td>list.append()</td><td>O(1) amortised</td><td>End only</td></tr>
-      <tr><td>list.pop()</td><td>O(1)</td><td>End only</td></tr>
-      <tr><td>list.pop(0)</td><td>O(n)</td><td>Use deque.popleft() instead</td></tr>
-      <tr><td>x in list</td><td>O(n)</td><td>Linear scan — use set!</td></tr>
-      <tr><td>x in set/dict</td><td>O(1) avg</td><td>Hash lookup</td></tr>
-      <tr><td>heappush/heappop</td><td>O(log n)</td><td>heapq</td></tr>
-      <tr><td>heapify</td><td>O(n)</td><td>Build from list</td></tr>
-      <tr><td>sorted()</td><td>O(n log n)</td><td>Timsort</td></tr>
-      <tr><td>bisect_left</td><td>O(log n)</td><td>Sorted list only</td></tr>
-    </table>
-  </div>
+            <div class="subsection">
+                <h3>Data structure operations</h3>
+                <table class="cmp-table">
+                    <tr><th>Operation</th><th>Time</th><th>Notes</th></tr>
+                    <tr><td>list[i]</td><td>O(1)</td><td>Index access</td></tr>
+                    <tr><td>list.append()</td><td>O(1) amortised</td><td>End only</td></tr>
+                    <tr><td>list.pop()</td><td>O(1)</td><td>End only</td></tr>
+                    <tr><td>list.pop(0)</td><td>O(n)</td><td>Use deque.popleft() instead</td></tr>
+                    <tr><td>x in list</td><td>O(n)</td><td>Linear scan — use set!</td></tr>
+                    <tr><td>x in set/dict</td><td>O(1) avg</td><td>Hash lookup</td></tr>
+                    <tr><td>heappush/heappop</td><td>O(log n)</td><td>heapq</td></tr>
+                    <tr><td>heapify</td><td>O(n)</td><td>Build from list</td></tr>
+                    <tr><td>sorted()</td><td>O(n log n)</td><td>Timsort</td></tr>
+                    <tr><td>bisect_left</td><td>O(log n)</td><td>Sorted list only</td></tr>
+                </table>
+            </div>
 
-  <div class="subsection">
-    <h3>Pattern → complexity map</h3>
-    <table class="cmp-table">
-      <tr><th>Pattern</th><th>Time</th><th>Space</th></tr>
-      <tr><td>Two Pointers</td><td>O(n)</td><td>O(1)</td></tr>
-      <tr><td>Sliding Window</td><td>O(n)</td><td>O(k)</td></tr>
-      <tr><td>Binary Search</td><td>O(log n)</td><td>O(1)</td></tr>
-      <tr><td>BFS / DFS</td><td>O(V + E)</td><td>O(V)</td></tr>
-      <tr><td>DP (top-down)</td><td>O(states × work)</td><td>O(states)</td></tr>
-      <tr><td>Backtracking</td><td>O(k^n) worst</td><td>O(n) stack</td></tr>
-      <tr><td>Heap top-K</td><td>O(n log k)</td><td>O(k)</td></tr>
-      <tr><td>Trie insert/search</td><td>O(m) per word</td><td>O(ALPHABET × n)</td></tr>
-      <tr><td>Union-Find</td><td>O(α(n)) ≈ O(1)</td><td>O(n)</td></tr>
-    </table>
-  </div>
+            <div class="subsection">
+                <h3>Pattern → complexity map</h3>
+                <table class="cmp-table">
+                    <tr><th>Pattern</th><th>Time</th><th>Space</th></tr>
+                    <tr><td>Two Pointers</td><td>O(n)</td><td>O(1)</td></tr>
+                    <tr><td>Sliding Window</td><td>O(n)</td><td>O(k)</td></tr>
+                    <tr><td>Binary Search</td><td>O(log n)</td><td>O(1)</td></tr>
+                    <tr><td>BFS / DFS</td><td>O(V + E)</td><td>O(V)</td></tr>
+                    <tr><td>DP (top-down)</td><td>O(states × work)</td><td>O(states)</td></tr>
+                    <tr><td>Backtracking</td><td>O(k^n) worst</td><td>O(n) stack</td></tr>
+                    <tr><td>Heap top-K</td><td>O(n log k)</td><td>O(k)</td></tr>
+                    <tr><td>Trie insert/search</td><td>O(m) per word</td><td>O(ALPHABET × n)</td></tr>
+                    <tr><td>Union-Find</td><td>O(α(n)) ≈ O(1)</td><td>O(n)</td></tr>
+                </table>
+            </div>
 
-  <div class="subsection">
-    <h3>What input size tells you</h3>
-    <table class="cmp-table">
-      <tr><th>n ≤</th><th>Acceptable complexity</th><th>Typical approach</th></tr>
-      <tr><td>20</td><td>O(2^n)</td><td>Backtracking, bitmask DP</td></tr>
-      <tr><td>100</td><td>O(n³)</td><td>Triple nested loop</td></tr>
-      <tr><td>1,000</td><td>O(n²)</td><td>Double loop, 2D DP</td></tr>
-      <tr><td>100,000</td><td>O(n log n)</td><td>Sort, binary search, heap</td></tr>
-      <tr><td>1,000,000+</td><td>O(n)</td><td>Hash map, two pointers, sliding window</td></tr>
-    </table>
-    <div class="callout callout-tip">
-      <div class="callout-icon">💡</div>
-      <div class="callout-body">
-        <div class="callout-title">Read n, choose your algorithm</div>
-        <p class="callout-text">Before writing any code, look at the constraints. If n = 10^5, you need O(n log n) or better. If your first idea is O(n²), you know you need a smarter structure before you even start coding.</p>
-      </div>
-    </div>
-  </div>
-</div>
+            <div class="subsection">
+                <h3>What input size tells you</h3>
+                <table class="cmp-table">
+                    <tr><th>n ≤</th><th>Acceptable complexity</th><th>Typical approach</th></tr>
+                    <tr><td>20</td><td>O(2^n)</td><td>Backtracking, bitmask DP</td></tr>
+                    <tr><td>100</td><td>O(n³)</td><td>Triple nested loop</td></tr>
+                    <tr><td>1,000</td><td>O(n²)</td><td>Double loop, 2D DP</td></tr>
+                    <tr><td>100,000</td><td>O(n log n)</td><td>Sort, binary search, heap</td></tr>
+                    <tr><td>1,000,000+</td><td>O(n)</td><td>Hash map, two pointers, sliding window</td></tr>
+                </table>
+                <div class="callout callout-tip">
+                    <div class="callout-icon">💡</div>
+                    <div class="callout-body">
+                        <div class="callout-title">Read n, choose your algorithm</div>
+                        <p class="callout-text">Before writing any code, look at the constraints. If n = 10^5, you need O(n log n) or better. If your first idea is O(n²), you know you need a smarter structure before you even start coding.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-</div> <!-- /content -->
+    </div> <!-- /content -->
 </main>
 
 <script>
-// Scrollspy
-const sections = document.querySelectorAll('.section');
-const navLinks = document.querySelectorAll('.nav-item');
+    // Scrollspy
+    const sections = document.querySelectorAll('.section');
+    const navLinks = document.querySelectorAll('.nav-item');
 
-const obs = new IntersectionObserver(entries => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      navLinks.forEach(l => l.classList.remove('active'));
-      const id = entry.target.id;
-      const link = document.querySelector(`.nav-item[href="#${id}"]`);
-      if (link) link.classList.add('active');
-    }
-  });
-}, { threshold: 0.2 });
+    const obs = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                navLinks.forEach(l => l.classList.remove('active'));
+                const id = entry.target.id;
+                const link = document.querySelector(`.nav-item[href="#${id}"]`);
+                if (link) link.classList.add('active');
+            }
+        });
+    }, { threshold: 0.2 });
 
-sections.forEach(s => obs.observe(s));
+    sections.forEach(s => obs.observe(s));
 </script>
 </body>
 </html>
